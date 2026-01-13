@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect, useCallback } from 'react';
 
 // URL DA LOGO OFICIAL
@@ -115,24 +114,24 @@ const App: React.FC = () => {
       <header className={`fixed w-full z-50 transition-all duration-500 ease-in-out bg-slate-950 ${
         isScrolled 
         ? 'py-3 shadow-2xl border-b border-white/10' 
-        : 'py-6 md:py-14 border-b border-white/5'
+        : 'py-10 md:py-32 border-b border-white/5'
       }`}>
         <div className="max-w-[1200px] mx-auto px-6 flex flex-col items-center">
           <a 
             href="#inicio" 
             onClick={(e) => scrollToSection(e, 'inicio')} 
-            className={`transition-all duration-500 transform hover:scale-[1.02] active:scale-95 ${
-              isScrolled ? 'h-8 md:h-12' : 'h-16 md:h-[140px]'
+            className={`transition-all duration-500 transform hover:scale-[1.01] active:scale-95 flex items-center justify-center ${
+              isScrolled ? 'h-24 md:h-36' : 'h-64 md:h-[750px]'
             }`}
           >
             <img 
               src={LOGO_URL} 
               alt="Leonasc Web" 
-              className="h-full w-auto object-contain"
+              className="h-full w-auto object-contain max-w-full block"
             />
           </a>
 
-          <nav className={`mt-8 transition-all duration-500 ${
+          <nav className={`mt-16 transition-all duration-500 ${
             isScrolled ? 'h-0 opacity-0 pointer-events-none mt-0 overflow-hidden' : 'h-auto opacity-100'
           } hidden lg:block`}>
             <div className="flex items-center space-x-10 text-[11px] font-bold text-white uppercase tracking-[0.3em]">
@@ -154,7 +153,7 @@ const App: React.FC = () => {
       {/* Mobile Menu */}
       {mobileMenuOpen && (
         <div className="fixed inset-0 z-[60] bg-slate-950 flex flex-col items-center justify-center space-y-8 animate-in fade-in duration-300">
-          <img src={LOGO_URL} className="h-20 w-auto mb-6" alt="Logo" />
+          <img src={LOGO_URL} className="h-48 w-auto mb-6 object-contain" alt="Logo" />
           <div className="text-xl font-bold text-white flex flex-col items-center space-y-6 uppercase tracking-widest">
             <a href="#servicos" onClick={(e) => scrollToSection(e, 'servicos')}>Serviços</a>
             <a href="#portfolio" onClick={(e) => scrollToSection(e, 'portfolio')}>Portfólio</a>
@@ -390,7 +389,30 @@ const App: React.FC = () => {
       {/* FOOTER */}
       <footer className="py-16 md:py-24 bg-slate-950 text-center border-t border-white/5">
         <div className="max-w-[1100px] mx-auto px-6">
-          <img src={LOGO_URL} className="h-12 md:h-20 w-auto mx-auto mb-8 md:mb-12 opacity-80" alt="Footer Logo" />
+          <img src={LOGO_URL} className="h-32 md:h-[600px] w-auto mx-auto mb-8 md:mb-12 opacity-80 object-contain max-w-full block" alt="Footer Logo" />
+          
+          {/* SELOS DE SEGURANÇA E VERIFICAÇÃO NO RODAPÉ */}
+          <div className="flex flex-wrap justify-center gap-6 md:gap-12 mb-10 opacity-50 hover:opacity-100 transition-opacity duration-500">
+            <div className="flex items-center gap-2">
+              <svg className="w-5 h-5 text-white" fill="currentColor" viewBox="0 0 24 24">
+                <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/>
+              </svg>
+              <span className="text-[9px] md:text-[10px] text-white font-black uppercase tracking-[0.2em]">Google Verified</span>
+            </div>
+            <div className="flex items-center gap-2">
+              <svg className="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth="2">
+                <path strokeLinecap="round" strokeLinejoin="round" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"/>
+              </svg>
+              <span className="text-[9px] md:text-[10px] text-white font-black uppercase tracking-[0.2em]">SSL Secured 256-bit</span>
+            </div>
+            <div className="flex items-center gap-2">
+              <svg className="w-5 h-5 text-white" fill="currentColor" viewBox="0 0 24 24">
+                <path d="M12 1L3 5v6c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V5l-9-4z"/>
+              </svg>
+              <span className="text-[9px] md:text-[10px] text-white font-black uppercase tracking-[0.2em]">Safe Browsing</span>
+            </div>
+          </div>
+
           <div className="flex flex-col md:flex-row justify-between items-center gap-8 pt-8 md:pt-12 border-t border-white/5">
             <div className="text-center md:text-left">
               <p className="text-slate-500 font-bold uppercase text-[9px] md:text-[10px] tracking-[0.3em]">&copy; {new Date().getFullYear()} Leonardo Nascimento - Leonasc Web.</p>
@@ -400,7 +422,10 @@ const App: React.FC = () => {
               <div className="hidden md:block w-px h-4 bg-white/5"></div>
               <span className="text-[8px] md:text-[9px] text-slate-600 font-bold uppercase tracking-widest hover:text-white transition-colors cursor-pointer">Termos</span>
               <div className="hidden md:block w-px h-4 bg-white/5"></div>
-              <span className="text-[8px] md:text-[9px] text-slate-600 font-bold uppercase tracking-widest">Verificado</span>
+              <span className="text-[8px] md:text-[9px] text-white font-black uppercase tracking-widest flex items-center gap-1">
+                <span className="w-1.5 h-1.5 bg-green-500 rounded-full animate-pulse"></span>
+                Site Verificado
+              </span>
             </div>
           </div>
         </div>
