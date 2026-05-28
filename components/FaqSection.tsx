@@ -46,7 +46,7 @@ export const FaqSection: React.FC = () => {
             key={index} 
             className={`border rounded-3xl transition-all duration-300 ${
               isOpen 
-                ? 'bg-blue-600/5 border-blue-500/20 shadow-lg shadow-blue-500/5' 
+                ? 'bg-green-600/5 border-green-500/20 shadow-lg shadow-green-500/5' 
                 : 'bg-white/[0.01] border-white/5 hover:bg-white/[0.02]'
             }`}
           >
@@ -56,7 +56,7 @@ export const FaqSection: React.FC = () => {
             >
               <div className="flex items-center gap-4">
                 <div className={`p-2 rounded-xl border transition-colors ${
-                  isOpen ? 'bg-blue-600 text-white border-blue-500' : 'bg-slate-900 border-white/5 text-blue-400'
+                  isOpen ? 'bg-green-600 text-white border-green-500' : 'bg-slate-900 border-white/5 text-yellow-400'
                 }`}>
                   <HelpCircle className="w-4 h-4" />
                 </div>
@@ -65,7 +65,7 @@ export const FaqSection: React.FC = () => {
                 </span>
               </div>
               <ChevronDown className={`w-4 h-4 text-white/40 transition-transform duration-300 shrink-0 ${
-                isOpen ? 'rotate-180 text-blue-400' : ''
+                isOpen ? 'rotate-180 text-yellow-400' : ''
               }`} />
             </button>
 

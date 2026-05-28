@@ -9,6 +9,39 @@
     <!-- Favicon atualizado conforme solicitação -->
     <link rel="icon" type="image/png" href="https://i.ibb.co/F4gZfZ5t/file-0000000099d4720e9b07f94887478ca1.png" />
     <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+      tailwind.config = {
+        theme: {
+          extend: {
+            colors: {
+              green: {
+                300: '#75D973',
+                400: '#00CC4E',
+                500: '#009c3b',
+                600: '#007A2A',
+              },
+              yellow: {
+                300: '#FFF066',
+                400: '#ffdf00',
+                500: '#E6C800',
+                600: '#CCA300',
+              },
+              blue: {
+                400: '#4D80E6',
+                500: '#002776',
+                600: '#001A4D',
+              },
+              br: {
+                green: '#009c3b',
+                yellow: '#ffdf00',
+                blue: '#002776',
+                dark: '#011e11',
+              }
+            }
+          }
+        }
+      }
+    </script>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
@@ -33,7 +66,7 @@
 </script>
 <link rel="stylesheet" href="/index.css">
 </head>
-  <body class="bg-white text-slate-900">
+  <body class="bg-br-dark text-slate-100">
     <div id="root"></div>
     <script type="module" src="index.tsx"></script>
   <script type="module" src="/index.tsx"></script>

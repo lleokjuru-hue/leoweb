@@ -135,18 +135,18 @@ export const BudgetCalculator: React.FC<CalculatorProps> = ({ onEstimateCalculat
 
   return (
     <div className="bg-slate-900/40 backdrop-blur-2xl border border-white/5 rounded-[2.5rem] p-6 md:p-12 relative overflow-hidden shadow-2xl">
-      <div className="absolute top-0 right-0 w-80 h-80 bg-blue-600/5 blur-[80px] rounded-full pointer-events-none"></div>
+      <div className="absolute top-0 right-0 w-80 h-80 bg-green-600/5 blur-[80px] rounded-full pointer-events-none"></div>
       
       <div className="relative z-10 grid lg:grid-cols-12 gap-10">
         
         {/* Parametros do Projeto */}
         <div className="lg:col-span-7 space-y-8">
           <div>
-            <span className="inline-flex items-center gap-2 px-3 py-1 bg-blue-500/10 rounded-full border border-blue-500/20 text-blue-400 text-[10px] font-black uppercase tracking-widest mb-4">
+            <span className="inline-flex items-center gap-2 px-3 py-1 bg-green-500/10 rounded-full border border-green-500/20 text-green-400 text-[10px] font-black uppercase tracking-widest mb-4">
               <Sliders className="w-3 h-3 animate-pulse" /> Simulador de Escopo
             </span>
             <h3 className="text-2xl md:text-3xl font-black uppercase tracking-tight italic">
-              Planeje sua <span className="text-blue-500">Presença Digital</span>
+              Planeje sua <span className="text-green-500">Presença Digital</span>
             </h3>
             <p className="text-sm text-white/50 mt-1">
               Selecione o escopo ideal para ver uma estimativa transparente de investimento.
@@ -176,11 +176,11 @@ export const BudgetCalculator: React.FC<CalculatorProps> = ({ onEstimateCalculat
                     }}
                     className={`p-4 rounded-2xl border text-left transition-all relative overflow-hidden flex flex-col justify-between h-28 ${
                       isSelected 
-                        ? 'bg-blue-600 border-blue-500 text-white shadow-lg shadow-blue-500/20 scale-[1.03]' 
+                        ? 'bg-green-600 border-green-500 text-white shadow-lg shadow-green-500/20 scale-[1.03]' 
                         : 'bg-white/[0.02] border-white/5 text-white/70 hover:bg-white/[0.04] hover:border-white/10'
                     }`}
                   >
-                    <Icon className={`w-5 h-5 ${isSelected ? 'text-white' : 'text-blue-400'}`} />
+                    <Icon className={`w-5 h-5 ${isSelected ? 'text-white' : 'text-green-400'}`} />
                     <div>
                       <span className="text-[11px] font-black uppercase block tracking-wider leading-tight">{t.label}</span>
                       <span className={`text-[10px] block mt-0.5 font-light ${isSelected ? 'text-white/70' : 'text-white/40'}`}>{t.desc}</span>
@@ -196,7 +196,7 @@ export const BudgetCalculator: React.FC<CalculatorProps> = ({ onEstimateCalculat
             <div className="space-y-3">
               <div className="flex justify-between items-center">
                 <label className="text-[10px] font-black uppercase tracking-widest text-white/40">
-                  2. Quantidade de Páginas / Seções: <span className="text-blue-400 font-bold">{pagesCount}</span>
+                  2. Quantidade de Páginas / Seções: <span className="text-green-400 font-bold">{pagesCount}</span>
                 </label>
                 <span className="text-[10.5px] font-semibold text-white/40">
                   {projectType === 'ecommerce' ? 'Até 5 páginas/categorias inclusas' : 'Até 3 páginas inclusas'}
@@ -209,9 +209,9 @@ export const BudgetCalculator: React.FC<CalculatorProps> = ({ onEstimateCalculat
                   max="20" 
                   value={pagesCount} 
                   onChange={(e) => setPagesCount(parseInt(e.target.value))}
-                  className="w-full accent-blue-500 cursor-pointer h-1.5 rounded-lg bg-slate-800"
+                  className="w-full accent-green-500 cursor-pointer h-1.5 rounded-lg bg-slate-800"
                 />
-                <div className="flex items-center justify-center bg-blue-500/10 border border-blue-500/20 text-blue-400 font-bold rounded-xl px-3 py-1.5 w-12 text-sm">
+                <div className="flex items-center justify-center bg-green-500/10 border border-green-500/20 text-green-400 font-bold rounded-xl px-3 py-1.5 w-12 text-sm">
                   {pagesCount}
                 </div>
               </div>
@@ -235,12 +235,12 @@ export const BudgetCalculator: React.FC<CalculatorProps> = ({ onEstimateCalculat
                     onClick={() => setDesignLevel(d.id as any)}
                     className={`p-4 rounded-2xl border text-left transition-all flex flex-col gap-2 ${
                       isSelected 
-                        ? 'bg-blue-950/40 border-blue-500/80 text-white shadow-xl ring-1 ring-blue-500/50' 
+                        ? 'bg-green-950/40 border-green-500/80 text-white shadow-xl ring-1 ring-green-500/50' 
                         : 'bg-white/[0.02] border-white/5 text-white/70 hover:bg-white/[0.04]'
                     }`}
                   >
                     <div className="flex items-center gap-2">
-                      <div className={`p-1 rounded-md ${isSelected ? 'bg-blue-500 text-white' : 'bg-slate-800 text-white/50'}`}>
+                      <div className={`p-1 rounded-md ${isSelected ? 'bg-green-500 text-white' : 'bg-slate-800 text-white/50'}`}>
                         <Icon className="w-3.5 h-3.5" />
                       </div>
                       <span className="text-[11px] font-black uppercase tracking-wider">{d.label}</span>
@@ -271,11 +271,11 @@ export const BudgetCalculator: React.FC<CalculatorProps> = ({ onEstimateCalculat
                     onClick={() => toggleFeature(feat.id as any)}
                     className={`p-4 rounded-[1.25rem] border text-left transition-all flex items-start gap-3 ${
                       isSelected 
-                        ? 'bg-blue-600/10 border-blue-500/40 text-white' 
+                        ? 'bg-green-600/10 border-green-500/40 text-white' 
                         : 'bg-white/[0.01] border-white/5 text-white/50 hover:bg-white/[0.03]'
                     }`}
                   >
-                    <div className={`mt-0.5 p-1.5 rounded-lg ${isSelected ? 'bg-blue-500 text-white' : 'bg-slate-800 text-white/40'}`}>
+                    <div className={`mt-0.5 p-1.5 rounded-lg ${isSelected ? 'bg-green-500 text-white' : 'bg-slate-800 text-white/40'}`}>
                       <Icon className="w-4 h-4" />
                     </div>
                     <div className="min-w-0 flex-1">
@@ -304,13 +304,13 @@ export const BudgetCalculator: React.FC<CalculatorProps> = ({ onEstimateCalculat
                     onClick={() => setUrgency(u.id as any)}
                     className={`p-4 rounded-2xl border text-left transition-all ${
                       isSelected 
-                        ? 'bg-blue-950/40 border-blue-500/80 text-white shadow-md' 
+                        ? 'bg-green-950/40 border-green-500/80 text-white shadow-md' 
                         : 'bg-white/[0.02] border-white/5 text-white/70 hover:bg-white/[0.04]'
                     }`}
                   >
                     <div className="flex justify-between items-center mb-1">
                       <span className="text-[11px] font-black uppercase tracking-wider">{u.label}</span>
-                      <span className={`text-[10px] font-bold px-2 py-0.5 rounded-full ${isSelected ? 'bg-blue-500/20 text-blue-400' : 'bg-slate-800 text-white/40'}`}>{u.delay}</span>
+                      <span className={`text-[10px] font-bold px-2 py-0.5 rounded-full ${isSelected ? 'bg-green-500/20 text-yellow-400' : 'bg-slate-800 text-white/40'}`}>{u.delay}</span>
                     </div>
                     <p className="text-[10px] text-white/40 leading-tight font-light">{u.desc}</p>
                   </button>
@@ -323,13 +323,13 @@ export const BudgetCalculator: React.FC<CalculatorProps> = ({ onEstimateCalculat
 
         {/* Resumo Financeiro e Acao */}
         <div className="lg:col-span-5 flex flex-col justify-between bg-black/40 border border-white/5 rounded-3xl p-6 md:p-10 relative">
-          <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-blue-500 to-indigo-600 rounded-t-3xl"></div>
+          <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-green-500 to-yellow-400 rounded-t-3xl"></div>
           
           <div className="space-y-8">
             <div>
               <span className="text-white/40 text-[10px] font-black tracking-[0.3em] uppercase block mb-1">Valor Estimado</span>
               <div className="flex items-baseline gap-1.5 flex-wrap">
-                <span className="text-3xl font-extrabold text-blue-500">R$</span>
+                <span className="text-3xl font-extrabold text-green-500">R$</span>
                 <span className="text-5xl md:text-6xl font-black italic tracking-tighter text-transparent bg-clip-text bg-gradient-to-r from-white via-slate-100 to-white">
                   {totalPrice.toLocaleString('pt-BR')}
                 </span>
@@ -344,7 +344,7 @@ export const BudgetCalculator: React.FC<CalculatorProps> = ({ onEstimateCalculat
               <span className="text-[10px] font-black uppercase tracking-widest text-white/40 block">Escopo Configurado</span>
               <ul className="space-y-3">
                 <li className="flex items-start gap-2.5">
-                  <div className="mt-0.5 p-0.5 rounded-full bg-blue-500/20 text-blue-400">
+                  <div className="mt-0.5 p-0.5 rounded-full bg-green-500/20 text-yellow-400">
                     <Check className="w-3.5 h-3.5" />
                   </div>
                   <div>
@@ -357,7 +357,7 @@ export const BudgetCalculator: React.FC<CalculatorProps> = ({ onEstimateCalculat
                   </div>
                 </li>
                 <li className="flex items-start gap-2.5">
-                  <div className="mt-0.5 p-0.5 rounded-full bg-blue-500/20 text-blue-400">
+                  <div className="mt-0.5 p-0.5 rounded-full bg-green-500/20 text-yellow-400">
                     <Check className="w-3.5 h-3.5" />
                   </div>
                   <div>
@@ -371,7 +371,7 @@ export const BudgetCalculator: React.FC<CalculatorProps> = ({ onEstimateCalculat
                 </li>
                 {urgency !== 'normal' && (
                   <li className="flex items-start gap-2.5">
-                    <div className="mt-0.5 p-0.5 rounded-full bg-blue-500/20 text-blue-400">
+                    <div className="mt-0.5 p-0.5 rounded-full bg-green-500/20 text-yellow-400">
                       <Clock className="w-3.5 h-3.5" />
                     </div>
                     <div>
@@ -403,7 +403,7 @@ export const BudgetCalculator: React.FC<CalculatorProps> = ({ onEstimateCalculat
           <div className="mt-8 pt-6 border-t border-white/5">
             <button
               onClick={handleApplyEstimate}
-              className="w-full py-5 bg-blue-600 hover:bg-blue-500 text-white rounded-2xl font-black text-xs uppercase tracking-[0.3em] transition-all flex items-center justify-center gap-3 active:scale-95 shadow-[0_15px_30px_rgba(37,99,235,0.25)]"
+              className="w-full py-5 bg-green-600 hover:bg-green-500 text-white rounded-2xl font-black text-xs uppercase tracking-[0.3em] transition-all flex items-center justify-center gap-3 active:scale-95 shadow-[0_15px_30px_rgba(34,197,94,0.25)]"
             >
               <Send className="w-4 h-4" /> Enviar Proposta Estimada
             </button>

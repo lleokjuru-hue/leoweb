@@ -1,7 +1,7 @@
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap');
 
 html, body {
-  background-color: #030712;
+  background-color: #011e11;
   color: #f1f5f9;
   font-family: 'Inter', sans-serif;
   scroll-behavior: smooth;
@@ -10,8 +10,8 @@ html, body {
 }
 
 ::selection {
-  background-color: #2563eb;
-  color: #ffffff;
+  background-color: #ffdf00;
+  color: #009c3b;
 }
 
 /* Custom premium scrollbar details */
@@ -19,12 +19,12 @@ html, body {
   width: 8px;
 }
 ::-webkit-scrollbar-track {
-  background: #030712;
+  background: #011e11;
 }
 ::-webkit-scrollbar-thumb {
-  background: #1e293b;
+  background: #009c3b;
   border-radius: 99px;
 }
 ::-webkit-scrollbar-thumb:hover {
-  background: #2563eb;
+  background: #ffdf00;
 }
