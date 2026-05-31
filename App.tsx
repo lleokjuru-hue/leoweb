@@ -21,10 +21,15 @@ import {
   Menu,
   ChevronRight,
   ExternalLink,
-  Cpu
+  Cpu,
+  Instagram,
+  Terminal,
+  Fingerprint
 } from 'lucide-react';
 import { BudgetCalculator } from './components/BudgetCalculator';
 import { FaqSection } from './components/FaqSection';
+import { PortfolioShowcase } from './components/PortfolioShowcase';
+import { ResultDemo } from './components/ResultDemo';
 
 // LOGO OFICIAL
 const LOGO_URL = "https://i.ibb.co/sdcRqjMf/file-00000000bae0720eb4360633486b9fe7.png";
@@ -236,10 +241,28 @@ const App: React.FC = () => {
             </div>
           </button>
           
+          {/* Instagram Pill Badge for high authority */}
+          <a 
+            href="https://instagram.com/leoh.nasc" 
+            target="_blank" 
+            rel="noopener noreferrer" 
+            className="hidden md:flex items-center gap-2.5 px-4 py-2 bg-slate-900 border border-white/5 hover:border-pink-500/40 rounded-full hover:bg-slate-950 transition-all hover:-translate-y-0.5"
+          >
+            <span className="relative flex h-2 w-2">
+              <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-pink-400 opacity-75"></span>
+              <span className="relative inline-flex rounded-full h-2 w-2 bg-pink-500"></span>
+            </span>
+            <Instagram className="w-3.5 h-3.5 text-pink-400" />
+            <span className="text-[9px] font-black tracking-widest text-[#94a3b8] uppercase group-hover:text-white">
+              @leoh.nasc
+            </span>
+          </a>
+          
           {/* Menu links - Desktop */}
           <nav className="hidden lg:flex items-center space-x-10">
             {[
               { id: 'servicos', label: 'Serviços' },
+              { id: 'portfolio', label: 'Portfólio' },
               { id: 'simulador', label: 'Simulador' },
               { id: 'duvidas', label: 'Duvidas' }
             ].map((item) => (
@@ -285,6 +308,7 @@ const App: React.FC = () => {
             <div className="flex flex-col space-y-6 text-left border-l-2 border-green-500/10 pl-6">
               {[
                 { id: 'servicos', label: 'Nossos Serviços' },
+                { id: 'portfolio', label: 'Nossos Cases de Luxo' },
                 { id: 'simulador', label: 'Simulador de Escopo' },
                 { id: 'duvidas', label: 'Dúvidas Frequentes' },
                 { id: 'contato', label: 'Iniciar Projeto' }
@@ -299,12 +323,27 @@ const App: React.FC = () => {
               ))}
             </div>
 
-            <div className="pt-8 border-t border-white/5 space-y-4">
-              <span className="text-[10px] font-black tracking-widest uppercase text-white/30 block">Atendimento Rápido</span>
-              <a href="https://wa.me/5516994501318" target="_blank" className="text-lg font-bold text-br-green block hover:underline">
-                (16) 99450-1318
-              </a>
-              <span className="text-xs text-white/45 block flex items-center justify-start gap-1">Ribeirão Preto / SP - Atendimento Brasil 🇧🇷⭐⭐⭐⭐⭐</span>
+            <div className="pt-8 border-t border-white/5 space-y-5">
+              <div className="space-y-2">
+                <span className="text-[10px] font-black tracking-widest uppercase text-white/30 block">Instagram Oficial</span>
+                <a 
+                  href="https://instagram.com/leoh.nasc" 
+                  target="_blank" 
+                  rel="noopener noreferrer" 
+                  className="flex items-center gap-2 text-lg font-black text-pink-400 hover:text-pink-300 cursor-pointer"
+                >
+                  <Instagram className="w-5 h-5 text-pink-400" />
+                  <span>@leoh.nasc</span>
+                </a>
+              </div>
+
+              <div className="space-y-1">
+                <span className="text-[10px] font-black tracking-widest uppercase text-white/30 block">Atendimento Rápido</span>
+                <a href="https://wa.me/5516994501318" target="_blank" className="text-lg font-bold text-br-green block hover:underline">
+                  (16) 99450-1318
+                </a>
+                <span className="text-xs text-white/45 block flex items-center justify-start gap-1">Ribeirão Preto / SP - Atendimento Brasil 🇧🇷⭐⭐⭐⭐⭐</span>
+              </div>
             </div>
           </motion.div>
         )}
@@ -325,38 +364,44 @@ const App: React.FC = () => {
             {/* Texto do Hero */}
             <div className="lg:col-span-7 space-y-8 text-center lg:text-left">
               
-              <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-br-green/10 border border-br-green/30 text-br-yellow text-[10px] font-black uppercase tracking-[0.4em] mb-4">
-                <Cpu className="w-3.5 h-3.5" /> High Performance & Branding
+              <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-br-green/10 border border-br-green/30 text-br-yellow text-[10px] font-black uppercase tracking-[0.4em] mb-4 animate-pulse">
+                <Cpu className="w-3.5 h-3.5" /> High-End Tech & Digital Transformation
               </div>
 
               {/* Título RESPONSIVO que nunca estoura o layout ou wrapa feio */}
               <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl xl:text-8xl font-black uppercase tracking-tight italic leading-[1.05] break-words">
-                Criamos <br />
+                Tecnologia <br />
                 <span className="text-transparent bg-clip-text bg-gradient-to-r from-br-green via-br-yellow to-br-blue pl-0.5">
-                  Autoridade Digital.
+                  Sem Limites.
                 </span>
               </h1>
 
-              {/* Descritivo de Soluções reais */}
+              {/* Descritivo de Soluções reais com as palavras-chave solicitadas */}
               <p className="text-base sm:text-lg md:text-xl text-white/50 font-light max-w-xl mx-auto lg:mx-0 leading-relaxed">
-                Desenvolvimento de sites profissionais, rápidos e ultra responsivos para profissionais liberais, médicos, advogados e pequenos negócios.
-                <span className="block mt-3 text-white/80 font-semibold text-sm">✓ Sem mensalidades obrigatórias. Código 100% seu.</span>
+                Revolucionamos seu negócio com <strong className="text-white font-bold">desenvolvimento web de ponta</strong>, <strong className="text-white font-bold">automação inteligente</strong>, <strong className="text-white font-bold">inteligência artificial</strong>, <strong className="text-white font-bold">sistemas personalizados</strong> e a mais completa <strong className="text-white font-bold text-transparent bg-clip-text bg-gradient-to-r from-white to-br-yellow">Transformação Digital</strong>.
+                <span className="block mt-3 text-white/80 font-semibold text-sm flex flex-col sm:flex-row gap-2 sm:gap-4 justify-center lg:justify-start">
+                  <span>⚡ Rapidez Extrema</span> 
+                  <span>🛡️ Segurança Absoluta</span>
+                  <span>🤝 Suporte Profissional</span>
+                </span>
               </p>
 
               {/* Actions */}
               <div className="flex flex-col sm:flex-row items-center justify-center lg:justify-start gap-4">
                 <button 
                   onClick={() => scrollTo('simulador')} 
-                  className="w-full sm:w-auto px-8 py-4.5 bg-br-green hover:brightness-110 text-white rounded-2xl font-black text-[11px] uppercase tracking-[0.3em] active:scale-95 transition-all shadow-lg shadow-br-green/25 flex items-center justify-center gap-2.5"
+                  className="w-full sm:w-auto px-8 py-4.5 bg-br-green hover:brightness-110 text-slate-950 rounded-2xl font-black text-[11px] uppercase tracking-[0.3em] active:scale-95 transition-all shadow-lg shadow-br-green/25 flex items-center justify-center gap-2.5 cursor-pointer"
                 >
                   Simular Escopo <ArrowRight className="w-4 h-4" />
                 </button>
-                <button 
-                  onClick={() => scrollTo('contato')} 
-                  className="w-full sm:w-auto px-8 py-4.5 border border-white/10 hover:bg-white/5 text-white/80 hover:text-white rounded-2xl font-black text-[11px] uppercase tracking-[0.3em] transition-all flex items-center justify-center"
+                <a 
+                  href="https://instagram.com/leoh.nasc" 
+                  target="_blank" 
+                  rel="noopener noreferrer"
+                  className="w-full sm:w-auto px-8 py-4.5 bg-slate-900 border border-white/5 hover:border-pink-500/30 hover:bg-slate-900/60 text-white hover:text-white rounded-2xl font-black text-[11px] uppercase tracking-[0.3em] transition-all flex items-center justify-center gap-2 cursor-pointer"
                 >
-                  Iniciar Conversa
-                </button>
+                  <Instagram className="w-4 h-4 text-pink-400" /> Seguir @leoh.nasc
+                </a>
               </div>
 
               {/* Social Proof metrics */}
@@ -387,37 +432,47 @@ const App: React.FC = () => {
                 className="relative cursor-pointer transition-all duration-300 w-full max-w-[340px] md:max-w-[420px]"
                 onClick={() => scrollTo('simulador')}
               >
-                <div className="absolute inset-0 bg-green-500/15 blur-[80px] rounded-full"></div>
+                <div className="absolute inset-0 bg-[#00ff66]/10 blur-[90px] rounded-full"></div>
+                <div className="absolute -inset-1.5 bg-gradient-to-r from-[#00ff66] via-[#ffdf00] to-[#0066ff] rounded-[2.6rem] opacity-30 group-hover:opacity-60 blur-sm transition-all duration-500"></div>
                 
-                {/* Frame flutuante simulando design elegante */}
-                <div className="relative z-10 bg-gradient-to-br from-slate-900 to-slate-950 p-4 rounded-[2.5rem] border border-green-500/20 shadow-2xl overflow-hidden aspect-square flex flex-col justify-between items-center group">
+                {/* Frame flutuante simulando design elegante e futurista */}
+                <div className="relative z-10 bg-[#02040a]/90 backdrop-blur-2xl p-6 rounded-[2.5rem] border border-white/10 shadow-2xl overflow-hidden aspect-square flex flex-col justify-between items-center group">
                   
                   {/* Grid overlay */}
-                  <div className="absolute inset-0 bg-[radial-gradient(#22c55e_1px,transparent_1px)] bg-[size:1.5rem_1.5rem] opacity-15 pointer-events-none"></div>
+                  <div className="absolute inset-0 bg-[radial-gradient(#00ff66_1.5px,transparent_1.5px)] bg-[size:1.25rem_1.25rem] opacity-20 pointer-events-none"></div>
 
-                  <div className="w-full flex justify-between items-center">
-                    <span className="text-[7.5px] font-mono tracking-widest text-green-400 uppercase font-black bg-green-500/10 px-2 py-1 rounded-md border border-green-500/20">
-                      ESTÚDIO CRIATIVO
+                  <div className="w-full flex justify-between items-center relative z-20">
+                    <span className="text-[7.5px] font-mono tracking-widest text-[#00ff66] uppercase font-black bg-[#00ff66]/10 px-2 py-1 rounded-md border border-[#00ff66]/20 flex items-center gap-1.5">
+                      <span className="w-1 h-1 rounded-full bg-[#00ff66] animate-ping"></span>
+                      CORE ENGINE ONLINE
                     </span>
-                    <div className="flex gap-1">
-                      <span className="w-1.5 h-1.5 rounded-full bg-green-500"></span>
-                      <span className="w-1.5 h-1.5 rounded-full bg-yellow-400"></span>
+                    <div className="flex gap-1.5">
+                      <span className="w-2 h-2 rounded-full bg-red-500/80"></span>
+                      <span className="w-2 h-2 rounded-full bg-yellow-500/80"></span>
+                      <span className="w-2 h-2 rounded-full bg-green-500/80"></span>
                     </div>
                   </div>
 
-                  {/* Logo centralizada de alta fidelidade */}
-                  <div className="relative py-8">
+                  {/* Logo centralizada de alta fidelidade - NÃO ALTERADA */}
+                  <div className="relative py-4 flex flex-col items-center">
                     <img 
                       src={LOGO_URL} 
                       alt="Leonasc Hero" 
-                      className="h-28 md:h-36 w-auto object-contain relative z-10 drop-shadow-[0_12px_30px_rgba(0,0,0,0.6)] group-hover:scale-105 transition-all duration-500" 
+                      className="h-28 md:h-32 w-auto object-contain relative z-10 drop-shadow-[0_12px_36px_rgba(0,255,102,0.15)] group-hover:scale-105 transition-all duration-500" 
                     />
+                    
+                    {/* Live Tech details */}
+                    <div className="mt-4 font-mono text-[8px] text-white/30 flex gap-4 uppercase select-none tracking-widest">
+                      <span>FPS: 60/60</span>
+                      <span>SECURE SSL</span>
+                      <span>v2.8.5</span>
+                    </div>
                   </div>
 
-                  <div className="w-full bg-white/[0.02] border border-white/5 rounded-2xl p-4 text-center">
+                  <div className="w-full bg-white/[0.02] border border-white/5 rounded-2xl p-4 text-center backdrop-blur-md relative z-20">
                     <span className="text-[9px] font-bold tracking-[0.25em] text-white/40 uppercase block mb-1">Engenharia Premium</span>
-                    <span className="text-xs md:text-sm font-black italic text-transparent bg-clip-text bg-gradient-to-r from-yellow-300 via-green-200 to-blue-300">
-                      DESIGN FORA DA CURVA
+                    <span className="text-xs md:text-xs font-black italic text-transparent bg-clip-text bg-gradient-to-r from-yellow-300 via-green-300 to-blue-300">
+                      TRANSFORMAÇÃO DIGITAL COMPLETA
                     </span>
                   </div>
 
@@ -435,27 +490,27 @@ const App: React.FC = () => {
           <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
             {[
               { 
-                title: "Código 100% Seu", 
-                desc: "Sem mensalidades presas a plataformas limitadas. Seu site é seu maior ativo digital definitivo.", 
-                icon: ShieldCheck,
+                title: "Soluções de Ponta & Web", 
+                desc: "Desenvolvimento web profissional, de alta performance e totalmente responsivo. Sistemas customizados com arquitetura de elite projetados para durar.", 
+                icon: Code2,
                 color: "text-green-400"
               },
               { 
-                title: "Velocidade Extrema", 
-                desc: "Carregamento instantâneo no celular. Reduz a perda de clientes e garante a melhor experiência.", 
+                title: "Automação Inteligente", 
+                desc: "Integramos fluxos de trabalhos automatizados com WhatsApp, CRMs e APIs públicas/privadas, economizando centenas de horas de processos manuais.", 
                 icon: Zap,
                 color: "text-yellow-400"
               },
               { 
-                title: "SEO Google Booster", 
-                desc: "Site inteiramente otimizado de forma técnica para aparecer no topo das buscas orgânicas locais.", 
-                icon: TrendingUp,
+                title: "Inteligência Artificial", 
+                desc: "Desenvolvimento de agentes exclusivos de IA vinculados às suas regras de negócio para triagem, atendimento autônomo e análise preditiva.", 
+                icon: Cpu,
                 color: "text-green-300"
               },
               { 
-                title: "Foco total em WhatsApp", 
-                desc: "Facilitamos a ponte para que seus clientes entrem em contato direto com você em 1 clique.", 
-                icon: MessageSquare,
+                title: "Segurança & Suporte Ativo", 
+                desc: "Monitoramento e segurança avançados com suporte técnico especializado. Proteção contra invasões e redundâncias na nuvem.", 
+                icon: ShieldCheck,
                 color: "text-blue-400"
               }
             ].map((badge, key) => {
@@ -485,16 +540,16 @@ const App: React.FC = () => {
           {/* Header de Serviços */}
           <div className="flex flex-col lg:flex-row justify-between items-start lg:items-end mb-20 gap-8">
             <div className="max-w-2xl text-left">
-              <span className="text-yellow-400 font-black uppercase tracking-[0.4em] text-[10px] mb-4 block">Especialidades</span>
+              <span className="text-yellow-400 font-black uppercase tracking-[0.4em] text-[10px] mb-4 block">Especialidades High-Tech</span>
               <h2 className="text-3xl sm:text-5xl lg:text-6xl font-black tracking-tight uppercase leading-none italic mb-4">
-                Sistemas E Design<br />
+                Sistemas, IA &<br />
                 <span className="text-transparent bg-clip-text bg-gradient-to-r from-yellow-300 via-green-400 to-blue-400">
-                  De Alto Nível.
+                  Transformação.
                 </span>
               </h2>
             </div>
             <p className="text-white/40 text-sm sm:text-base max-w-sm font-light leading-relaxed text-left">
-              Não se trata apenas de 'fazer um site'. Projetamos autoridade e criamos máquinas de conversão dedicadas para captar clientes qualificados.
+              Desenvolvemos a arquitetura digital que posicionará sua empresa na vanguarda do setor, unindo design de luxo com automação operacional avançada.
             </p>
           </div>
 
@@ -502,44 +557,54 @@ const App: React.FC = () => {
           <div className="grid lg:grid-cols-3 gap-8">
             {[
               { 
-                title: "Landing Pages", 
-                subtitle: "Máxima Conversão",
-                desc: "Design focado em levar o visitante direto para a ação de compra ou contato. Ideal para campanhas de tráfego pago (Google/Meta Ads).",
-                features: ["WhatsApp On-Click", "Textos persuasivos inclusos", "Tempo de carregamento < 1s", "Formulários integrados"],
+                title: "Websites & Sistemas", 
+                subtitle: "Desenvolvimento de Elite",
+                desc: "Criação de landing pages, portais corporativos e sistemas web sob medida hiper-rápidos. Código limpo, sem dependência de plataformas proprietárias e totalmente otimizado para o Google.",
+                features: ["Lighthouse 100% de Velocidade", "Design Exclusivo Responsivo", "Otimização Avançada de SEO", "Navegação Imersiva Fluida"],
                 color: "from-green-500/20 to-blue-500/5",
                 icon: Code2
               },
               { 
-                title: "Websites Pro", 
-                subtitle: "Institucionais Robustos",
-                desc: "A solução completa para expor autoridade no mercado corporativo, clínicas e escritórios. Sessões dedicadas de serviços, depoimentos e blog integrado.",
-                features: ["Múltiplas páginas customizadas", "Focado em Autoridade Local", "Painel administrativo de conteúdo", "Layout 100% exclusivo"],
+                title: "Automações de Negócio", 
+                subtitle: "Máxima Eficiência",
+                desc: "Aniquilamos tarefas repetitivas integrando sistemas legados, CRMs, planilhas inteligentes e gatilhos automatizados em tempo real direto com a API oficial do WhatsApp.",
+                features: ["Disparador de Leads Instantâneo", "Notificações Automatizadas", "Sincronização entre Plataformas", "Arquitetura Segura anti-quedas"],
                 color: "from-yellow-500/20 to-orange-500/5",
-                icon: Smartphone
+                icon: Zap
               },
               { 
-                title: "Identidade Visual", 
-                subtitle: "Branding de Luxo",
-                desc: "Paleta de cores de alta sofisticação, tipografia exclusiva e logotipos profissionais que elevam o valor de percepção da sua marca imediatamente.",
-                features: ["Manual de uso completo", "Logotipo Vetorial escalável", "Visual Kit de Redes Sociais", "Assinatura elegante de e-mail"],
+                title: "Inteligência Artificial", 
+                subtitle: "Sistemas & IA Conectados",
+                desc: "Integre modelos de LLM avançados nos canais da sua marca. Criamos assistentes inteligentes que compreendem regras de negócio e realizam tarefas autonomamente de forma segura.",
+                features: ["Agentes de Triagem de Clientes", "Modelagem de Respostas por IA", "Configurações de Prompt Exclusivas", "Redução de Atendimento Humano"],
                 color: "from-green-500/20 to-teal-500/5",
-                icon: Palette
+                icon: Cpu
               }
             ].map((s, i) => {
               const Icon = s.icon;
               return (
                 <div 
                   key={i} 
-                  className="group bg-slate-900/20 border border-white/5 rounded-[2.5rem] p-8 md:p-10 hover:border-green-500/30 hover:bg-slate-900/40 transition-all duration-500 h-full flex flex-col justify-between"
+                  className="group relative bg-[#030712]/50 backdrop-blur-3xl border border-white/10 hover:border-[#00ff66]/30 rounded-[2.5rem] p-8 md:p-10 hover:bg-[#02040a] transition-all duration-500 h-full flex flex-col justify-between overflow-hidden shadow-2xl hover:shadow-[#00ff66]/5"
                 >
+                  {/* Decorative glowing background node */}
+                  <div className="absolute top-0 right-0 w-32 h-32 bg-gradient-to-br from-[#00ff66]/10 to-transparent blur-2xl pointer-events-none group-hover:scale-150 transition-transform duration-700"></div>
+                  
+                  {/* Neon Top Tech highlight indicator */}
+                  <div className="absolute top-0 left-1/2 -translate-x-1/2 w-3/4 h-[1.5px] bg-gradient-to-r from-transparent via-white/10 to-transparent group-hover:via-[#00ff66]/80 transition-all duration-500"></div>
+
                   <div>
-                    {/* Icon section */}
-                    <div className="w-12 h-12 bg-white/[0.02] border border-white/5 rounded-xl flex items-center justify-center mb-8 shadow-inner group-hover:bg-green-600 group-hover:border-green-500 group-hover:text-white group-hover:scale-105 transition-all duration-300">
-                      <Icon className="w-5 h-5 text-green-400 group-hover:text-white" />
+                    {/* Icon section with futuristic glow */}
+                    <div className="w-12 h-12 bg-slate-900 border border-white/10 rounded-xl flex items-center justify-center mb-8 shadow-inner group-hover:bg-[#00ff66] group-hover:border-[#00ff66] group-hover:text-slate-950 group-hover:scale-110 group-hover:shadow-[0_0_20px_rgba(0,255,102,0.35)] transition-all duration-300">
+                      <Icon className="w-5 h-5 text-[#00ff66] group-hover:text-slate-950" />
                     </div>
 
-                    <span className="text-[10px] uppercase font-bold tracking-widest text-yellow-400 block mb-2">{s.subtitle}</span>
-                    <h3 className="text-2xl md:text-3xl font-black uppercase italic tracking-tight mb-4 group-hover:text-green-400 transition-colors">
+                    <div className="flex items-center gap-1.5 mb-2">
+                      <span className="w-1.5 h-1.5 rounded-full bg-[#00ff66]"></span>
+                      <span className="text-[10px] uppercase font-bold tracking-widest text-yellow-400 block">{s.subtitle}</span>
+                    </div>
+
+                    <h3 className="text-2xl md:text-3xl font-black uppercase italic tracking-tight mb-4 group-hover:text-[#00ff66] transition-colors">
                       {s.title}
                     </h3>
                     <p className="text-white/50 text-sm leading-relaxed font-light mb-8">
@@ -548,10 +613,10 @@ const App: React.FC = () => {
 
                     {/* Features checklist */}
                     <div className="border-t border-white/5 pt-6 mt-6 space-y-3">
-                      <span className="text-[9px] font-black tracking-widest uppercase text-white/30 block mb-2">Entregas Garantidas:</span>
+                      <span className="text-[9px] font-black tracking-widest uppercase text-white/30 block mb-2">Entregas de Tecnologia Garantidas:</span>
                       {s.features.map((feat) => (
                         <div key={feat} className="flex items-center gap-2.5 text-xs text-white/70">
-                          <Check className="w-4 h-4 text-emerald-400 shrink-0" />
+                          <Check className="w-4 h-4 text-[#00ff66] shrink-0" />
                           <span>{feat}</span>
                         </div>
                       ))}
@@ -561,7 +626,7 @@ const App: React.FC = () => {
                   <div className="mt-10 pt-6 border-t border-white/5">
                     <button 
                       onClick={() => scrollTo('simulador')} 
-                      className="w-full py-4 rounded-xl bg-white/[0.02] hover:bg-green-600 hover:text-white border border-white/5 text-[10px] font-black uppercase tracking-[0.3em] text-white/60 hover:border-green-500 transition-all duration-300"
+                      className="w-full py-4 rounded-xl bg-white/[0.01] hover:bg-[#00ff66] hover:text-slate-950 border border-white/5 hover:border-[#00ff66] text-[10px] font-black uppercase tracking-[0.3em] text-white/60 transition-all duration-300 cursor-pointer"
                     >
                       Calcular Projeto
                     </button>
@@ -571,6 +636,36 @@ const App: React.FC = () => {
             })}
           </div>
 
+        </div>
+      </section>
+
+      {/* DEMONSTRAÇÃO DE RESULTADOS COM ALTÍSSIMO PADRÃO TECNOLÓGICO */}
+      <section className="py-24 md:py-36 bg-slate-950/20 relative border-b border-white/5">
+        <div className="absolute top-1/2 left-1/4 w-96 h-96 bg-br-yellow/5 blur-[120px] rounded-full pointer-events-none"></div>
+        <div className="max-w-7xl mx-auto px-6 sm:px-8">
+          <ResultDemo />
+        </div>
+      </section>
+
+      {/* CASES DESENVOLVIDOS (PORTFÓLIO) DE LIDERANÇA MUNDIAL */}
+      <section id="portfolio" className="py-24 md:py-36 bg-br-dark relative border-b border-white/5">
+        <div className="absolute top-0 right-1/4 w-96 h-96 bg-br-green/5 blur-[120px] rounded-full pointer-events-none"></div>
+        <div className="max-w-7xl mx-auto px-6 sm:px-8">
+          {/* Header do Portfólio */}
+          <div className="max-w-2xl text-left mb-16">
+            <span className="text-br-yellow font-black uppercase tracking-[0.4em] text-[10px] mb-4 block">Garantia de Beleza & Autoridade</span>
+            <h2 className="text-3xl sm:text-5xl lg:text-6xl font-black tracking-tight uppercase leading-none italic mb-4">
+              Cases De Sucesso <br />
+              <span className="text-transparent bg-clip-text bg-gradient-to-r from-br-yellow via-green-400 to-emerald-300">
+                Nível Internacional.
+              </span>
+            </h2>
+            <p className="text-white/40 text-sm sm:text-base font-light leading-relaxed">
+              Exclusividade visual e engenharia de software sob medida. Examine de perto os pilares de conversão construídos para parceiros que lideram seus nichos.
+            </p>
+          </div>
+
+          <PortfolioShowcase />
         </div>
       </section>
 
@@ -653,6 +748,23 @@ const App: React.FC = () => {
                 <div className="space-y-6">
                   
                   <div className="flex items-center gap-4">
+                    <div className="p-3 bg-white/[0.02] border border-white/5 rounded-2xl text-pink-400">
+                      <Instagram className="w-5 h-5" />
+                    </div>
+                    <div>
+                      <span className="text-[9px] font-black uppercase tracking-widest text-[#94a3b8]/40 block">Instagram Oficial</span>
+                      <a 
+                        href="https://instagram.com/leoh.nasc" 
+                        target="_blank" 
+                        rel="noopener noreferrer" 
+                        className="text-base sm:text-lg font-bold text-pink-400 hover:text-pink-300 transition-colors flex items-center gap-1.5 cursor-pointer"
+                      >
+                        @leoh.nasc <ExternalLink className="w-3.5 h-3.5" />
+                      </a>
+                    </div>
+                  </div>
+
+                  <div className="flex items-center gap-4">
                     <div className="p-3 bg-white/[0.02] border border-white/5 rounded-2xl text-green-400">
                       <Mail className="w-5 h-5" />
                     </div>
@@ -692,32 +804,32 @@ const App: React.FC = () => {
               </div>
 
               {/* Form de Conversao */}
-              <div className="bg-white p-8 md:p-12 rounded-[2.5rem] text-slate-950 flex flex-col relative">
+              <div className="bg-slate-950/80 backdrop-blur-3xl border border-white/5 p-8 md:p-12 rounded-[2.5rem] text-white flex flex-col relative">
                 
-                <h3 className="text-2xl font-black uppercase tracking-tight italic text-slate-950 mb-1.5 text-left">
+                <h3 className="text-2xl font-black uppercase tracking-tight italic text-white mb-1.5 text-left">
                   Iniciar Alinhamento
                 </h3>
-                <p className="text-xs text-slate-500 font-light text-left mb-8">
+                <p className="text-xs text-white/50 font-light text-left mb-8">
                   Respondemos rápido no seu WhatsApp.
                 </p>
 
                 {/* Simulated quote summary widget */}
                 {simulatedPrice && (
-                  <div className="mb-8 p-4.5 bg-green-50 border border-green-100 rounded-2xl text-left relative animate-pulse">
+                  <div className="mb-8 p-4.5 bg-br-green/10 border border-br-green/35 rounded-2xl text-left relative animate-pulse">
                     <button 
                       onClick={handleClearSimulation}
-                      className="absolute top-2 right-2 p-1 rounded-full text-slate-400 hover:text-slate-600 hover:bg-slate-100"
+                      className="absolute top-2 right-2 p-1 rounded-full text-white/40 hover:text-white hover:bg-white/5"
                       title="Remover Simulação"
                     >
                       <X className="w-3.5 h-3.5" />
                     </button>
-                    <span className="text-[8px] font-black uppercase tracking-wider text-green-600 block mb-1">
+                    <span className="text-[8px] font-black uppercase tracking-wider text-br-yellow block mb-1">
                       Orçamento Escopo Simulado Pre-carregado
                     </span>
-                    <div className="text-base font-black text-slate-900 mb-1 italic">
+                    <div className="text-base font-black text-br-yellow mb-1 italic">
                       Estimativa: R$ {simulatedPrice.toLocaleString('pt-BR')}
                     </div>
-                    <p className="text-[10px] text-slate-500 leading-tight font-medium line-clamp-2">
+                    <p className="text-[10px] text-white/55 leading-tight font-medium line-clamp-2">
                       {simulatedSummary.replace(/\n/g, ' | ')}
                     </p>
                   </div>
@@ -727,43 +839,43 @@ const App: React.FC = () => {
                   
                   {/* Name Input */}
                   <div className="flex flex-col text-left space-y-1.5">
-                    <label className="text-[9.5px] font-black uppercase tracking-wider text-slate-400">Seu Nome ou Empresa</label>
-                    <div className="focus-within:ring-2 focus-within:ring-green-500/50 rounded-xl transition-all">
+                    <label className="text-[9.5px] font-black uppercase tracking-wider text-white/45">Seu Nome ou Empresa</label>
+                    <div className="focus-within:ring-2 focus-within:ring-br-yellow/50 rounded-xl transition-all">
                       <input 
                         type="text" 
                         required
                         value={clientName}
                         onChange={(e) => setClientName(e.target.value)}
                         placeholder="Ex: Dr. Roberto Silva ou Almeida Advogados" 
-                        className="w-full bg-slate-50 px-5 py-4 border border-slate-100 rounded-xl outline-none font-semibold text-[14px] text-slate-900 placeholder:text-slate-350" 
+                        className="w-full bg-slate-900 px-5 py-4 border border-white/5 rounded-xl outline-none font-semibold text-[14px] text-white placeholder:text-white/20 focus:border-br-yellow/30" 
                       />
                     </div>
                   </div>
 
                   {/* Phone Input */}
                   <div className="flex flex-col text-left space-y-1.5">
-                    <label className="text-[9.5px] font-black uppercase tracking-wider text-slate-400">WhatsApp de Contato</label>
-                    <div className="focus-within:ring-2 focus-within:ring-green-500/50 rounded-xl transition-all">
+                    <label className="text-[9.5px] font-black uppercase tracking-wider text-white/45">WhatsApp de Contato</label>
+                    <div className="focus-within:ring-2 focus-within:ring-br-yellow/50 rounded-xl transition-all">
                       <input 
                         type="text" 
                         required
                         value={clientPhone}
                         onChange={(e) => setClientPhone(e.target.value)}
                         placeholder="Ex: (16) 99450-1318" 
-                        className="w-full bg-slate-50 px-5 py-4 border border-slate-100 rounded-xl outline-none font-semibold text-[14px] text-slate-900 placeholder:text-slate-350" 
+                        className="w-full bg-slate-900 px-5 py-4 border border-white/5 rounded-xl outline-none font-semibold text-[14px] text-white placeholder:text-white/20 focus:border-br-yellow/30" 
                       />
                     </div>
                   </div>
 
                   {/* Message Input */}
                   <div className="flex flex-col text-left space-y-1.5">
-                    <label className="text-[9.5px] font-black uppercase tracking-wider text-slate-400">O que seu negócio precisa dominar?</label>
-                    <div className="focus-within:ring-2 focus-within:ring-green-500/50 rounded-xl transition-all">
+                    <label className="text-[9.5px] font-black uppercase tracking-wider text-white/45">O que seu negócio precisa dominar?</label>
+                    <div className="focus-within:ring-2 focus-within:ring-br-yellow/50 rounded-xl transition-all">
                       <textarea 
                         value={clientMessage}
                         onChange={(e) => setClientMessage(e.target.value)}
                         placeholder="Ex: Preciso de uma Landing Page rápida para capturar leads para clínica estética com domínio personalizado." 
-                        className="w-full bg-slate-50 px-5 py-4 border border-slate-100 rounded-xl outline-none font-semibold text-[14px] text-slate-900 placeholder:text-slate-350 resize-none" 
+                        className="w-full bg-slate-900 px-5 py-4 border border-white/5 rounded-xl outline-none font-semibold text-[14px] text-white placeholder:text-white/20 focus:border-br-yellow/30 resize-none" 
                         rows={3}
                       />
                     </div>
@@ -772,7 +884,7 @@ const App: React.FC = () => {
                   <button 
                     type="submit" 
                     disabled={formSubmitted}
-                    className="w-full py-5 bg-slate-950 hover:bg-green-600 text-white rounded-2xl font-black uppercase tracking-[0.4em] text-[10px] sm:text-[11px] transition-all duration-300 shadow-xl active:scale-95 disabled:bg-slate-400 disabled:cursor-not-allowed flex items-center justify-center gap-2"
+                    className="w-full py-5 bg-br-yellow hover:brightness-110 text-slate-950 rounded-2xl font-black uppercase tracking-[0.4em] text-[10px] sm:text-[11px] transition-all duration-300 shadow-xl shadow-br-yellow/10 active:scale-95 disabled:bg-slate-400 disabled:cursor-not-allowed flex items-center justify-center gap-2 cursor-pointer"
                   >
                     {formSubmitted ? (
                       <>Direcionando WhatsApp...</>
@@ -781,7 +893,7 @@ const App: React.FC = () => {
                     )}
                   </button>
 
-                  <span className="text-[9px] text-[#94a3b8] block text-center tracking-wide leading-tight mt-3">
+                  <span className="text-[9px] text-[#94a3b8]/60 block text-center tracking-wide leading-tight mt-3">
                     Ao enviar, você será direcionado para o chat WhatsApp exclusivo de Leonardo Nascimento.
                   </span>
 
@@ -805,12 +917,13 @@ const App: React.FC = () => {
             className="h-20 md:h-28 mx-auto mb-16 opacity-40 grayscale hover:opacity-100 hover:grayscale-0 transition-all cursor-pointer active:scale-95" 
           />
           
-          <div className="grid md:grid-cols-3 items-center gap-8 pt-12 border-t border-white/5 opacity-40 text-[9px] font-black uppercase tracking-[0.5,em]">
+          <div className="grid md:grid-cols-3 items-center gap-8 pt-12 border-t border-white/5 opacity-40 text-[9px] font-black uppercase tracking-[0.5em]">
             <p className="text-center md:text-left">&copy; {new Date().getFullYear()} Leonasc Web Enterprise.</p>
-            <div className="flex justify-center gap-8">
-              <span className="hover:text-yellow-400 cursor-pointer transition-colors" onClick={() => scrollTo('servicos')}>Serviços</span>
-              <span className="hover:text-yellow-400 cursor-pointer transition-colors" onClick={() => scrollTo('simulador')}>Simulador</span>
-              <span className="hover:text-yellow-400 cursor-pointer transition-colors" onClick={() => scrollTo('duvidas')}>Dúvidas</span>
+            <div className="flex justify-center flex-wrap gap-6">
+              <span className="hover:text-[#00ff66] cursor-pointer transition-colors" onClick={() => scrollTo('servicos')}>Serviços</span>
+              <span className="hover:text-[#00ff66] cursor-pointer transition-colors" onClick={() => scrollTo('simulador')}>Simulador</span>
+              <a href="https://instagram.com/leoh.nasc" target="_blank" rel="noopener noreferrer" className="hover:text-pink-400 cursor-pointer transition-colors font-bold uppercase tracking-widest flex items-center gap-1">@leoh.nasc</a>
+              <span className="hover:text-[#00ff66] cursor-pointer transition-colors" onClick={() => scrollTo('duvidas')}>Dúvidas</span>
             </div>
             <p className="text-center md:text-right italic select-none">Handcrafted with precision in Brazil &bull; 2026</p>
           </div>

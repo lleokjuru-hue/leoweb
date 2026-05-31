@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { motion } from 'motion/react';
+import { motion, AnimatePresence } from 'motion/react';
 import { 
   Check, 
   Sparkles, 
@@ -9,407 +9,512 @@ import {
   Globe, 
   Search, 
   Layout, 
-  ShoppingBag, 
   Sliders, 
+  TrendingUp, 
+  ArrowUpRight, 
+  Percent, 
   Clock, 
-  Send 
+  Briefcase,
+  DollarSign,
+  Send,
+  Cpu,
+  BarChart3,
+  HelpCircle
 } from 'lucide-react';
 
 interface CalculatorProps {
   onEstimateCalculated: (summary: string, total: number) => void;
 }
 
+// Years and market data points
+const MARKET_YEARS = ['2023', '2024', '2025', '2026', '2027 (Proj)'];
+
 export const BudgetCalculator: React.FC<CalculatorProps> = ({ onEstimateCalculated }) => {
-  const [projectType, setProjectType] = useState<'landing' | 'institutional' | 'ecommerce' | 'custom'>('landing');
-  const [pagesCount, setPagesCount] = useState<number>(1);
-  const [designLevel, setDesignLevel] = useState<'standard' | 'premium' | 'cinematic'>('premium');
-  const [urgency, setUrgency] = useState<'normal' | 'fast' | 'express'>('normal');
+  // Simulator state variables
+  const [revenue, setRevenue] = useState<number>(35000); // Monthly business revenue in BRL
+  const [wastedHours, setWastedHours] = useState<number>(30); // Hours wasted per month in repetitive tasks
+  const [traffic, setTraffic] = useState<number>(2500); // Current monthly visitors
   
-  // Custom features
-  const [features, setFeatures] = useState({
-    whatsapp: true,
-    blog: false,
-    dashboard: false,
-    seo: true,
-    multilingual: false,
+  // Enabled technological solutions
+  const [webElite, setWebElite] = useState<boolean>(true);
+  const [automations, setAutomations] = useState<boolean>(false);
+  const [aiAgents, setAiAgents] = useState<boolean>(false);
+  const [premiumDesign, setPremiumDesign] = useState<boolean>(true);
+
+  // Dynamic calculations based on strategy config
+  const [roiMetrics, setRoiMetrics] = useState({
+    suggestedInvestment: 2500,
+    timeSavedCostValue: 1200,
+    conversionIncreaseMultiplier: 1.5,
+    estimatedNewRevenue: 3750,
+    projectedRoiMultiplier: 4.5,
   });
 
-  const [totalPrice, setTotalPrice] = useState<number>(1500);
-
-  const calculateEstimate = () => {
-    // Base prices
-    let base = 1500;
-    if (projectType === 'landing') {
-      base = 1500;
-    } else if (projectType === 'institutional') {
-      base = 2800;
-    } else if (projectType === 'ecommerce') {
-      base = 4500;
-    } else if (projectType === 'custom') {
-      base = 6500;
-    }
-
-    // Pages cost (for institutional and custom, landing is 1, ecommerce is base + products)
-    let pagesCost = 0;
-    if (projectType === 'institutional' || projectType === 'custom') {
-      pagesCost = Math.max(0, pagesCount - 3) * 250; // first 3 pages included
-    } else if (projectType === 'landing') {
-      pagesCost = 0; // always 1 page
-    } else if (projectType === 'ecommerce') {
-      pagesCost = Math.max(0, pagesCount - 5) * 150; // first 5 category/product custom pages included
-    }
-
-    // Design Multiplier
-    let designMultiplier = 1.0;
-    if (designLevel === 'standard') designMultiplier = 0.95; // Simple & lightweight
-    if (designLevel === 'premium') designMultiplier = 1.2;  // High fidelity & gorgeous micro-utils
-    if (designLevel === 'cinematic') designMultiplier = 1.7; // Immersive scroll, high motion, high-end 3D style
-
-    // Feature flat-addons
-    let featuresCost = 0;
-    if (features.whatsapp) featuresCost += 150;
-    if (features.blog) featuresCost += 700;
-    if (features.dashboard) featuresCost += 1800;
-    if (features.seo) featuresCost += 400;
-    if (features.multilingual) featuresCost += 800;
-
-    // Urgency Multiplier
-    let urgencyMultiplier = 1.0;
-    if (urgency === 'fast') urgencyMultiplier = 1.25; // 2 Weeks
-    if (urgency === 'express') urgencyMultiplier = 1.6; // 1 Week
-
-    const subtotal = (base + pagesCost) * designMultiplier + featuresCost;
-    const finalPrice = Math.round(subtotal * urgencyMultiplier);
-    
-    setTotalPrice(finalPrice);
-  };
+  // Selected year in chart for details tooltip
+  const [selectedYearIndex, setSelectedYearIndex] = useState<number>(3); // 2026 default
 
   useEffect(() => {
-    calculateEstimate();
-  }, [projectType, pagesCount, designLevel, features, urgency]);
+    // Calculo de Engenharia de Valor & Retorno sobre Investimento
+    let baseInvestment = 1500;
+    let multiplier = 1.0;
+    
+    if (webElite) {
+      baseInvestment += 1300;
+      multiplier += 0.3;
+    }
+    if (automations) {
+      baseInvestment += 2100;
+      multiplier += 0.55;
+    }
+    if (aiAgents) {
+      baseInvestment += 3800;
+      multiplier += 0.9;
+    }
+    if (premiumDesign) {
+      baseInvestment += 1400;
+      multiplier += 0.4;
+    }
 
-  const toggleFeature = (name: keyof typeof features) => {
-    setFeatures(prev => ({ ...prev, [name]: !prev[name] }));
-  };
+    // High performance SEO / conversion multiplier adjusts
+    const finalInvestment = Math.max(1900, Math.round(baseInvestment));
+
+    // Dynamic calculated business metrics
+    // Hourly rate considered at R$ 60 BRL
+    const monthlyTimeValueSaved = wastedHours * 65; 
+    
+    // Improvement in capture conversion rate
+    let conversionImprovement = 1.25;
+    if (webElite && premiumDesign) conversionImprovement = 2.1;
+    if (automations) conversionImprovement += 0.6;
+    if (aiAgents) conversionImprovement += 0.8;
+
+    // Projected new revenue calculation (from traffic, converting to leads, multiplying conversion increase)
+    // baseline average lead value assumed from monthly revenue
+    const estimatedConversionRateBaseline = 0.015; // 1.5%
+    const averageTicketValue = revenue / Math.max(1, (traffic * estimatedConversionRateBaseline));
+    const baselineLeadsCount = traffic * estimatedConversionRateBaseline;
+    const elevatedLeadsCount = baselineLeadsCount * conversionImprovement;
+    const leadsDiff = Math.max(0, elevatedLeadsCount - baselineLeadsCount);
+    
+    const monthlyRevenueGain = Math.round(leadsDiff * averageTicketValue * 0.42); // 42% closing rate impact
+    const calculatedRoi = Math.max(1.8, Number(((monthlyRevenueGain * 12) / finalInvestment).toFixed(1)));
+
+    setRoiMetrics({
+      suggestedInvestment: finalInvestment,
+      timeSavedCostValue: Math.round(monthlyTimeValueSaved),
+      conversionIncreaseMultiplier: Number(conversionImprovement.toFixed(2)),
+      estimatedNewRevenue: monthlyRevenueGain || Math.round(revenue * 0.12),
+      projectedRoiMultiplier: calculatedRoi,
+    });
+  }, [revenue, wastedHours, traffic, webElite, automations, aiAgents, premiumDesign]);
 
   const handleApplyEstimate = () => {
-    // Create text summary
-    const typeNames = {
-      landing: 'Landing Page de Alta Conversão',
-      institutional: 'Website Institucional',
-      ecommerce: 'Loja Virtual / E-commerce',
-      custom: 'Portal ou Plataforma Web Customizada',
-    };
+    const activeTechList: string[] = [];
+    if (webElite) activeTechList.push('Web de Elite (Lighthouse 100%)');
+    if (automations) activeTechList.push('Automações Operacionais Inteligentes (WhatsApp/CRM)');
+    if (aiAgents) activeTechList.push('Agentes de IA e Modelagem Cognitiva');
+    if (premiumDesign) activeTechList.push('Direção de Arte High-Contrast Premium');
 
-    const designNames = {
-      standard: 'Clean & Minimalista',
-      premium: 'Design Premium de Autoridade',
-      cinematic: 'Imersivo & Cinematográfico (Animações Avançadas)',
-    };
+    const summary = `SIMULADOR ROI DE MERCADO:\n` +
+      `- Faturamento Mensal do Cliente: R$ ${revenue.toLocaleString('pt-BR')}\n` +
+      `- Gargalo Operacional: ${wastedHours} horas/mês desperdiçadas\n` +
+      `- Configuração Tecnológica Ativa: ${activeTechList.join(' | ')}\n` +
+      `- Otimização de Conversão: +${Math.round((roiMetrics.conversionIncreaseMultiplier - 1) * 100)}% de Eficiência de Leads\n` +
+      `- Economia Operacional Esperada: R$ ${roiMetrics.timeSavedCostValue.toLocaleString('pt-BR')}/mês\n` +
+      `- Ganho Estimado (12 meses): R$ ${(roiMetrics.estimatedNewRevenue * 12).toLocaleString('pt-BR')}`;
 
-    const urgencyNames = {
-      normal: 'Prazo Padrão (3-4 semanas)',
-      fast: 'Prazo Acelerado (2 semanas)',
-      express: 'Ultra Express (1 semana - Alta Prioridade)',
-    };
+    onEstimateCalculated(summary, roiMetrics.suggestedInvestment);
 
-    const activeFeaturesList = Object.keys(features)
-      .filter(f => features[f as keyof typeof features])
-      .map(f => {
-        if (f === 'whatsapp') return 'Botão e Link Inteligente de WhatsApp';
-        if (f === 'blog') return 'Painel de Blog / Gestão de Conteúdo';
-        if (f === 'dashboard') return 'Área de Membros / Banco de Dados / Admin';
-        if (f === 'seo') return 'Otimização Avançada de SEO (Google)';
-        if (f === 'multilingual') return 'Suporte Multi-idioma (Inglês/Espanhol)';
-        return f;
-      });
-
-    const summary = `Tipo: ${typeNames[projectType]}\n` +
-      `Páginas Estimadas: ${projectType === 'landing' ? 1 : pagesCount}\n` +
-      `Nível de Design: ${designNames[designLevel]}\n` +
-      `Prazo: ${urgencyNames[urgency]}\n` +
-      `Recursos Opcionais: ${activeFeaturesList.length > 0 ? activeFeaturesList.join(', ') : 'Nenhum'}`;
-
-    onEstimateCalculated(summary, totalPrice);
+    // Scroll to contact form smoothly
+    const element = document.getElementById('contato');
+    if (element) {
+      element.scrollIntoView({ behavior: 'smooth' });
+    }
   };
 
+  // Coordinates data for the responsive SVG Market Chart
+  // Represents growth/conversion performance index over years (out of 100)
+  const ourTechCurve = [35, 55, 78, 96, 120]; // Exponential dominance path
+  const basicTechCurve = [45, 40, 28, 16, 9];   // Obsolete slow standard system path
+
   return (
-    <div className="bg-slate-900/40 backdrop-blur-2xl border border-white/5 rounded-[2.5rem] p-6 md:p-12 relative overflow-hidden shadow-2xl">
-      <div className="absolute top-0 right-0 w-80 h-80 bg-green-600/5 blur-[80px] rounded-full pointer-events-none"></div>
+    <div className="bg-slate-950/70 backdrop-blur-3xl border border-white/5 rounded-[2.5rem] p-6 lg:p-12 relative overflow-hidden shadow-2xl">
+      {/* Decorative localized glows */}
+      <div className="absolute top-0 right-0 w-80 h-80 bg-br-yellow/5 blur-[100px] rounded-full pointer-events-none"></div>
+      <div className="absolute bottom-0 left-0 w-80 h-80 bg-br-green/5 blur-[100px] rounded-full pointer-events-none"></div>
       
-      <div className="relative z-10 grid lg:grid-cols-12 gap-10">
+      <div className="relative z-10 grid lg:grid-cols-12 gap-8 lg:gap-12 text-left">
         
-        {/* Parametros do Projeto */}
-        <div className="lg:col-span-7 space-y-8">
+        {/* LEFT COLUMN: Strategic inputs & Modern Sliders */}
+        <div className="lg:col-span-6 space-y-8">
           <div>
-            <span className="inline-flex items-center gap-2 px-3 py-1 bg-green-500/10 rounded-full border border-green-500/20 text-green-400 text-[10px] font-black uppercase tracking-widest mb-4">
-              <Sliders className="w-3 h-3 animate-pulse" /> Simulador de Escopo
-            </span>
-            <h3 className="text-2xl md:text-3xl font-black uppercase tracking-tight italic">
-              Planeje sua <span className="text-green-500">Presença Digital</span>
+            <div className="inline-flex items-center gap-2 px-3 py-1 bg-br-yellow/10 rounded-full border border-br-yellow/20 text-br-yellow text-[10px] font-black uppercase tracking-widest mb-4">
+              <TrendingUp className="w-3.5 h-3.5" /> Simulador Tático de Transformação Digital
+            </div>
+            <h3 className="text-2xl sm:text-3xl font-black uppercase tracking-tight italic text-white">
+              Simule o <span className="text-transparent bg-clip-text bg-gradient-to-r from-br-yellow to-emerald-400">Poder de Escala</span> da Sua Empresa
             </h3>
-            <p className="text-sm text-white/50 mt-1">
-              Selecione o escopo ideal para ver uma estimativa transparente de investimento.
+            <p className="text-xs sm:text-sm text-white/50 leading-relaxed font-light mt-2 max-w-xl">
+              Altere os controles interativos abaixo para mapear as perdas operacionais atuais, o investimento tático necessário e o retorno tecnológico projetado.
             </p>
           </div>
 
-          {/* 1. Tipo de Projeto */}
-          <div className="space-y-3">
-            <label className="text-[10px] font-black uppercase tracking-widest text-white/40 block">1. Tipo de Solução</label>
-            <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
-              {[
-                { id: 'landing', label: 'Landing Page', icon: Layout, desc: 'Foco em Vendas' },
-                { id: 'institutional', label: 'Institucional', icon: Layers, desc: 'Empresas & Clínicas' },
-                { id: 'ecommerce', label: 'E-commerce', icon: ShoppingBag, desc: 'Loja Completa' },
-                { id: 'custom', label: 'Custom App', icon: Zap, desc: 'Sistemas & Portais' },
-              ].map((t) => {
-                const Icon = t.icon;
-                const isSelected = projectType === t.id;
-                return (
-                  <button
-                    key={t.id}
-                    onClick={() => {
-                      setProjectType(t.id as any);
-                      if (t.id === 'landing') setPagesCount(1);
-                      else if (t.id === 'ecommerce') setPagesCount(5);
-                      else setPagesCount(3);
-                    }}
-                    className={`p-4 rounded-2xl border text-left transition-all relative overflow-hidden flex flex-col justify-between h-28 ${
-                      isSelected 
-                        ? 'bg-green-600 border-green-500 text-white shadow-lg shadow-green-500/20 scale-[1.03]' 
-                        : 'bg-white/[0.02] border-white/5 text-white/70 hover:bg-white/[0.04] hover:border-white/10'
-                    }`}
-                  >
-                    <Icon className={`w-5 h-5 ${isSelected ? 'text-white' : 'text-green-400'}`} />
-                    <div>
-                      <span className="text-[11px] font-black uppercase block tracking-wider leading-tight">{t.label}</span>
-                      <span className={`text-[10px] block mt-0.5 font-light ${isSelected ? 'text-white/70' : 'text-white/40'}`}>{t.desc}</span>
-                    </div>
-                  </button>
-                );
-              })}
-            </div>
-          </div>
-
-          {/* 2. Quantidade de Páginas */}
-          {projectType !== 'landing' && (
-            <div className="space-y-3">
+          <div className="space-y-6">
+            {/* Slider 1: Revenue Scale */}
+            <div className="bg-white/[0.02] border border-white/5 p-5 rounded-2xl space-y-2">
               <div className="flex justify-between items-center">
-                <label className="text-[10px] font-black uppercase tracking-widest text-white/40">
-                  2. Quantidade de Páginas / Seções: <span className="text-green-400 font-bold">{pagesCount}</span>
-                </label>
-                <span className="text-[10.5px] font-semibold text-white/40">
-                  {projectType === 'ecommerce' ? 'Até 5 páginas/categorias inclusas' : 'Até 3 páginas inclusas'}
+                <span className="text-[10px] sm:text-[11px] font-black uppercase tracking-widest text-white/40 flex items-center gap-1.5">
+                  <DollarSign className="w-3.5 h-3.5 text-br-yellow" /> Faturamento Mensal Atual
+                </span>
+                <span className="text-sm font-black text-br-yellow">
+                  R$ {revenue.toLocaleString('pt-BR')}
                 </span>
               </div>
-              <div className="flex items-center gap-4 bg-white/[0.02] border border-white/5 p-4 rounded-2xl">
-                <input 
-                  type="range" 
-                  min="2" 
-                  max="20" 
-                  value={pagesCount} 
-                  onChange={(e) => setPagesCount(parseInt(e.target.value))}
-                  className="w-full accent-green-500 cursor-pointer h-1.5 rounded-lg bg-slate-800"
-                />
-                <div className="flex items-center justify-center bg-green-500/10 border border-green-500/20 text-green-400 font-bold rounded-xl px-3 py-1.5 w-12 text-sm">
-                  {pagesCount}
-                </div>
+              <input 
+                type="range" 
+                min="5000" 
+                max="250000" 
+                step="5000"
+                value={revenue} 
+                onChange={(e) => setRevenue(parseInt(e.target.value))}
+                className="w-full accent-br-yellow cursor-pointer h-1 rounded-lg bg-white/10"
+              />
+              <div className="flex justify-between text-[9px] text-white/20 uppercase font-bold pt-1">
+                <span>Iniciante (R$ 5K)</span>
+                <span>Médio Alto (R$ 120K)</span>
+                <span>Enterprise (R$ 250K+)</span>
               </div>
             </div>
-          )}
 
-          {/* 3. Nível Visual / Design */}
-          <div className="space-y-3">
-            <label className="text-[10px] font-black uppercase tracking-widest text-white/40 block">3. Direção de Arte & Visual</label>
-            <div className="grid md:grid-cols-3 gap-3">
-              {[
-                { id: 'standard', label: 'Clean & Minimalista', desc: 'Leve, limpo e direto, focado em alta velocidade de carregamento.', icon: Check },
-                { id: 'premium', label: 'Premium Autoridade', desc: 'Gráficos sob medida, micro-interações refinadas, excelente branding.', icon: Sparkles },
-                { id: 'cinematic', label: 'Animações Avançadas', desc: 'Animações 3D de rolagem imersiva, transições complexas, design digno de prêmio.', icon: Zap },
-              ].map((d) => {
-                const Icon = d.icon;
-                const isSelected = designLevel === d.id;
-                return (
-                  <button
-                    key={d.id}
-                    onClick={() => setDesignLevel(d.id as any)}
-                    className={`p-4 rounded-2xl border text-left transition-all flex flex-col gap-2 ${
-                      isSelected 
-                        ? 'bg-green-950/40 border-green-500/80 text-white shadow-xl ring-1 ring-green-500/50' 
-                        : 'bg-white/[0.02] border-white/5 text-white/70 hover:bg-white/[0.04]'
-                    }`}
-                  >
-                    <div className="flex items-center gap-2">
-                      <div className={`p-1 rounded-md ${isSelected ? 'bg-green-500 text-white' : 'bg-slate-800 text-white/50'}`}>
-                        <Icon className="w-3.5 h-3.5" />
-                      </div>
-                      <span className="text-[11px] font-black uppercase tracking-wider">{d.label}</span>
-                    </div>
-                    <p className="text-[10px] text-white/40 leading-relaxed font-light">{d.desc}</p>
-                  </button>
-                );
-              })}
-            </div>
-          </div>
-
-          {/* 4. Recursos / Funcionalidades Opcionais */}
-          <div className="space-y-3">
-            <label className="text-[10px] font-black uppercase tracking-widest text-white/40 block">4. Funcionalidades de Performance</label>
-            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-3">
-              {[
-                { id: 'whatsapp', label: 'WhatsApp Inteligente', desc: 'Links e balões de roteamento direto', icon: MessageSquare },
-                { id: 'seo', label: 'SEO Google Booster', desc: 'Carregamento instantâneo indexável', icon: Search },
-                { id: 'blog', label: 'Blog / Painel CMS', desc: 'Gestão dinâmica de artigos e notícias', icon: Layers },
-                { id: 'dashboard', label: 'Banco de Dados / Login', desc: 'Painel privado com login do cliente', icon: Layout },
-                { id: 'multilingual', label: 'Multi-idiomas', desc: 'Inglês/Espanhol com chave seletora', icon: Globe },
-              ].map((feat) => {
-                const Icon = feat.icon;
-                const isSelected = features[feat.id as keyof typeof features];
-                return (
-                  <button
-                    key={feat.id}
-                    onClick={() => toggleFeature(feat.id as any)}
-                    className={`p-4 rounded-[1.25rem] border text-left transition-all flex items-start gap-3 ${
-                      isSelected 
-                        ? 'bg-green-600/10 border-green-500/40 text-white' 
-                        : 'bg-white/[0.01] border-white/5 text-white/50 hover:bg-white/[0.03]'
-                    }`}
-                  >
-                    <div className={`mt-0.5 p-1.5 rounded-lg ${isSelected ? 'bg-green-500 text-white' : 'bg-slate-800 text-white/40'}`}>
-                      <Icon className="w-4 h-4" />
-                    </div>
-                    <div className="min-w-0 flex-1">
-                      <span className="text-[11px] font-bold uppercase block tracking-wide">{feat.label}</span>
-                      <span className="text-[9.5px] text-white/30 block leading-tight font-light mt-0.5">{feat.desc}</span>
-                    </div>
-                  </button>
-                );
-              })}
-            </div>
-          </div>
-
-          {/* 5. Urgência do Projeto */}
-          <div className="space-y-3">
-            <label className="text-[10px] font-black uppercase tracking-widest text-white/40 block">5. Cronograma e Prioridade</label>
-            <div className="grid md:grid-cols-3 gap-3">
-              {[
-                { id: 'normal', label: 'Cronograma Padrão', delay: '3 a 4 semanas', desc: 'No ritmo de engenharia e QA' },
-                { id: 'fast', label: 'Prazo Express', delay: '2 semanas', desc: 'Sobrecarga de engenharia dedicada (+25%)' },
-                { id: 'express', label: 'Prazo Emergencial', delay: '7 dias!', desc: 'Equipe exclusiva e foco total (+60%)' },
-              ].map((u) => {
-                const isSelected = urgency === u.id;
-                return (
-                  <button
-                    key={u.id}
-                    onClick={() => setUrgency(u.id as any)}
-                    className={`p-4 rounded-2xl border text-left transition-all ${
-                      isSelected 
-                        ? 'bg-green-950/40 border-green-500/80 text-white shadow-md' 
-                        : 'bg-white/[0.02] border-white/5 text-white/70 hover:bg-white/[0.04]'
-                    }`}
-                  >
-                    <div className="flex justify-between items-center mb-1">
-                      <span className="text-[11px] font-black uppercase tracking-wider">{u.label}</span>
-                      <span className={`text-[10px] font-bold px-2 py-0.5 rounded-full ${isSelected ? 'bg-green-500/20 text-yellow-400' : 'bg-slate-800 text-white/40'}`}>{u.delay}</span>
-                    </div>
-                    <p className="text-[10px] text-white/40 leading-tight font-light">{u.desc}</p>
-                  </button>
-                );
-              })}
-            </div>
-          </div>
-
-        </div>
-
-        {/* Resumo Financeiro e Acao */}
-        <div className="lg:col-span-5 flex flex-col justify-between bg-black/40 border border-white/5 rounded-3xl p-6 md:p-10 relative">
-          <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-green-500 to-yellow-400 rounded-t-3xl"></div>
-          
-          <div className="space-y-8">
-            <div>
-              <span className="text-white/40 text-[10px] font-black tracking-[0.3em] uppercase block mb-1">Valor Estimado</span>
-              <div className="flex items-baseline gap-1.5 flex-wrap">
-                <span className="text-3xl font-extrabold text-green-500">R$</span>
-                <span className="text-5xl md:text-6xl font-black italic tracking-tighter text-transparent bg-clip-text bg-gradient-to-r from-white via-slate-100 to-white">
-                  {totalPrice.toLocaleString('pt-BR')}
+            {/* Slider 2: Wasted labor hours */}
+            <div className="bg-white/[0.02] border border-white/5 p-5 rounded-2xl space-y-2">
+              <div className="flex justify-between items-center">
+                <span className="text-[10px] sm:text-[11px] font-black uppercase tracking-widest text-white/40 flex items-center gap-1.5">
+                  <Clock className="w-3.5 h-3.5 text-br-green" /> Desperdício de Tempo de Equipe
                 </span>
-                <span className="text-[10px] font-bold uppercase text-white/40 block tracking-wider">Investimento Único</span>
+                <span className="text-sm font-black text-white">
+                  {wastedHours} horas / mês
+                </span>
               </div>
-              <p className="text-[10.5px] text-white/30 italic font-light mt-1.5 leading-tight">
-                *Este simulador calcula uma estimativa confiável baseada em nossa tabela geral. Sem taxas ou mensalidades surpresas.
+              <input 
+                type="range" 
+                min="5" 
+                max="120" 
+                step="5"
+                value={wastedHours} 
+                onChange={(e) => setWastedHours(parseInt(e.target.value))}
+                className="w-full accent-br-green cursor-pointer h-1 rounded-lg bg-white/10"
+              />
+              <p className="text-[9.5px] text-white/30 font-light italic leading-tight">
+                *Tempo consumido respondendo manualmente mensagens idênticas, criando relatórios ou alimentando planilhas desintegradas.
               </p>
             </div>
 
-            <div className="border-t border-white/5 pt-6 space-y-4">
-              <span className="text-[10px] font-black uppercase tracking-widest text-white/40 block">Escopo Configurado</span>
-              <ul className="space-y-3">
-                <li className="flex items-start gap-2.5">
-                  <div className="mt-0.5 p-0.5 rounded-full bg-green-500/20 text-yellow-400">
-                    <Check className="w-3.5 h-3.5" />
+            {/* Slider 3: Traffic volume */}
+            <div className="bg-white/[0.02] border border-white/5 p-5 rounded-2xl space-y-2">
+              <div className="flex justify-between items-center">
+                <span className="text-[10px] sm:text-[11px] font-black uppercase tracking-widest text-white/40 flex items-center gap-1.5">
+                  <Globe className="w-3.5 h-3.5 text-[#0066ff]" /> Tráfego Mensal Estimado (Acessos)
+                </span>
+                <span className="text-sm font-black text-white">
+                  {traffic.toLocaleString('pt-BR')} visualizações
+                </span>
+              </div>
+              <input 
+                type="range" 
+                min="100" 
+                max="30000" 
+                step="100"
+                value={traffic} 
+                onChange={(e) => setTraffic(parseInt(e.target.value))}
+                className="w-full accent-[#0066ff] cursor-pointer h-1 rounded-lg bg-white/10"
+              />
+            </div>
+            
+            {/* Technologies Selection (Upgrade Boxes) */}
+            <div className="space-y-3">
+              <label className="text-[10px] font-bold uppercase tracking-widest text-white/30 block mb-1">
+                Selecione as Tecnologias Premium que você deseja integrar:
+              </label>
+              
+              <div className="grid sm:grid-cols-2 gap-3">
+                {/* Checkbox 1 */}
+                <button
+                  type="button"
+                  onClick={() => setWebElite(!webElite)}
+                  className={`p-4 rounded-xl border text-left transition-all flex items-start gap-3 select-none relative ${
+                    webElite 
+                      ? 'bg-br-green/10 border-br-green/45 text-white shadow-md' 
+                      : 'bg-white/[0.01] border-white/5 text-white/40 hover:bg-white/[0.02]'
+                  }`}
+                >
+                  <div className={`p-1.5 rounded-md mt-0.5 ${webElite ? 'bg-br-green text-white' : 'bg-white/5 text-white/40'}`}>
+                    <Layout className="w-4 h-4" />
                   </div>
                   <div>
-                    <span className="text-xs font-semibold text-white/80 block leading-snug">
-                      {projectType === 'landing' ? 'Landing Page Pro' : projectType === 'institutional' ? 'Site Institucional Premium' : projectType === 'ecommerce' ? 'E-commerce Completo' : 'Web App Cloud Customizado'}
-                    </span>
-                    <span className="text-[10.5px] text-white/40 block">
-                      {projectType === 'landing' ? '1 Seção mestre principal de alta conversão' : `${pagesCount} páginas projetadas sob medida`}
-                    </span>
+                    <span className="text-[11px] font-black uppercase tracking-wider block">Web de Elite (Full Optimization)</span>
+                    <span className="text-[9.5px] font-light leading-tight block mt-0.5 text-white/50">Lighthouse 100/100, sem dependência de templates lentos.</span>
                   </div>
-                </li>
-                <li className="flex items-start gap-2.5">
-                  <div className="mt-0.5 p-0.5 rounded-full bg-green-500/20 text-yellow-400">
-                    <Check className="w-3.5 h-3.5" />
+                </button>
+
+                {/* Checkbox 2 */}
+                <button
+                  type="button"
+                  onClick={() => setAutomations(!automations)}
+                  className={`p-4 rounded-xl border text-left transition-all flex items-start gap-3 select-none relative ${
+                    automations 
+                      ? 'bg-br-green/10 border-br-green/45 text-white shadow-md' 
+                      : 'bg-white/[0.01] border-white/5 text-white/40 hover:bg-white/[0.02]'
+                  }`}
+                >
+                  <div className={`p-1.5 rounded-md mt-0.5 ${automations ? 'bg-br-green text-white' : 'bg-white/5 text-white/40'}`}>
+                    <MessageSquare className="w-4 h-4" />
                   </div>
                   <div>
-                    <span className="text-xs font-semibold text-white/80 block leading-snug">
-                      Direção Criativa: {designLevel === 'standard' ? 'Minimalista' : designLevel === 'premium' ? 'Design de Autoridade' : 'Animações Cinematográficas'}
-                    </span>
-                    <span className="text-[10.5px] text-white/40 block">
-                      Estilos e tipografias de luxo voltados ao seu nicho.
-                    </span>
+                    <span className="text-[11px] font-black uppercase tracking-wider block">Automação com WhatsApp</span>
+                    <span className="text-[9.5px] font-light leading-tight block mt-0.5 text-white/50">Disparos de leads automatizados e sincronização com CRM.</span>
                   </div>
-                </li>
-                {urgency !== 'normal' && (
-                  <li className="flex items-start gap-2.5">
-                    <div className="mt-0.5 p-0.5 rounded-full bg-green-500/20 text-yellow-400">
-                      <Clock className="w-3.5 h-3.5" />
-                    </div>
-                    <div>
-                      <span className="text-xs font-semibold text-white/80 block leading-snug">
-                        Entrega Prioritária: {urgency === 'fast' ? 'Cronograma de 14 dias' : 'Equipe Dedicada 7 dias'}
-                      </span>
-                      <span className="text-[10.5px] text-white/40 block">
-                        Foco exclusivo dos programadores para acelerar sua estreia.
-                      </span>
-                    </div>
-                  </li>
-                )}
-              </ul>
+                </button>
+
+                {/* Checkbox 3 */}
+                <button
+                  type="button"
+                  onClick={() => setAiAgents(!aiAgents)}
+                  className={`p-4 rounded-xl border text-left transition-all flex items-start gap-3 select-none relative ${
+                    aiAgents 
+                      ? 'bg-br-green/10 border-br-green/45 text-white shadow-md' 
+                      : 'bg-white/[0.01] border-white/5 text-white/40 hover:bg-white/[0.02]'
+                  }`}
+                >
+                  <div className={`p-1.5 rounded-md mt-0.5 ${aiAgents ? 'bg-br-green text-white' : 'bg-white/5 text-white/40'}`}>
+                    <Cpu className="w-4 h-4" />
+                  </div>
+                  <div>
+                    <span className="text-[11px] font-black uppercase tracking-wider block">Inteligência Artificial</span>
+                    <span className="text-[9.5px] font-light leading-tight block mt-0.5 text-white/50">Atendimento cognitivo robótico e triagem contextual de leads.</span>
+                  </div>
+                </button>
+
+                {/* Checkbox 4 */}
+                <button
+                  type="button"
+                  onClick={() => setPremiumDesign(!premiumDesign)}
+                  className={`p-4 rounded-xl border text-left transition-all flex items-start gap-3 select-none relative ${
+                    premiumDesign 
+                      ? 'bg-br-green/10 border-br-green/45 text-white shadow-md' 
+                      : 'bg-white/[0.01] border-white/5 text-white/40 hover:bg-white/[0.02]'
+                  }`}
+                >
+                  <div className={`p-1.5 rounded-md mt-0.5 ${premiumDesign ? 'bg-br-green text-white' : 'bg-white/5 text-white/40'}`}>
+                    <Sparkles className="w-4 h-4" />
+                  </div>
+                  <div>
+                    <span className="text-[11px] font-black uppercase tracking-wider block">Design Imersivo Cinematográfico</span>
+                    <span className="text-[9.5px] font-light leading-tight block mt-0.5 text-white/50">Animações de alto padrão, tipografia marcante e exclusividade visual.</span>
+                  </div>
+                </button>
+              </div>
             </div>
 
-            <div className="bg-white/[0.02] border border-white/5 rounded-2xl p-4 space-y-2">
-              <span className="text-[9.5px] font-black uppercase text-white/40 tracking-wider block">O que está garantido:</span>
-              <div className="grid grid-cols-2 gap-x-4 gap-y-2 text-[10px] text-white/60 font-medium">
-                <div className="flex items-center gap-1.5">✓ Site Ultrarrápido</div>
-                <div className="flex items-center gap-1.5">✓ Responsivo (Celular)</div>
-                <div className="flex items-center gap-1.5">✓ Hospedagem Própria</div>
-                <div className="flex items-center gap-1.5">✓ Código Limpo & Seguro</div>
-                <div className="flex items-center gap-1.5">✓ Sem Mensalidade</div>
-                <div className="flex items-center gap-1.5">✓ Entrega Garantida</div>
+          </div>
+        </div>
+
+        {/* RIGHT COLUMN: Interactive Market Chart & ROI Summary */}
+        <div className="lg:col-span-6 flex flex-col justify-between space-y-6">
+          
+          {/* REALTIME MARKET PERFORMANCE CHART */}
+          <div className="bg-slate-900 border border-white/5 p-6 rounded-3xl space-y-5 relative overflow-hidden flex flex-col">
+            <div className="absolute top-3 right-3 flex items-center gap-1 bg-br-green/10 border border-br-green/20 px-2 py-0.5 rounded-md text-[9px] text-br-green font-black uppercase">
+              <span className="w-1.5 h-1.5 bg-br-green rounded-full animate-pulse"></span>
+              Live Market Data
+            </div>
+
+            <div>
+              <span className="text-[10px] font-black uppercase tracking-widest text-[#94a3b8]/40 block">Visualização Comparativa de Impacto</span>
+              <h4 className="text-base font-black uppercase italic tracking-tight text-white mt-1">
+                Evolução da Eficiência de Conversão: <span className="text-br-green">Empresas High-Tech</span> vs Comuns
+              </h4>
+              <p className="text-[10.5px] text-[#94a3b8]/50 font-light leading-snug">
+                Sites obsoletos perdem tração rapidamente. A curva verde mostra o poder de conversão escalável com nosso sistema refinado de carregamento instantâneo + inteligência artificial.
+              </p>
+            </div>
+
+            {/* Simulated Interactive SVG Chart Canvas */}
+            <div className="relative w-full h-40 bg-black/40 border border-white/5 rounded-2xl p-4 flex flex-col justify-between mt-2">
+              
+              {/* Grid Horizontal Guide Lines */}
+              <div className="absolute inset-x-0 top-1/4 border-b border-white/[0.02] pointer-events-none"></div>
+              <div className="absolute inset-x-0 top-2/4 border-b border-white/[0.02] pointer-events-none"></div>
+              <div className="absolute inset-x-0 top-3/4 border-b border-white/[0.02] pointer-events-none"></div>
+              
+              {/* Animated Glowing Curves inside SVG */}
+              <svg className="absolute inset-0 w-full h-full p-4 overflow-visible" preserveAspectRatio="none">
+                <defs>
+                  <linearGradient id="ourTechGrad" x1="0" y1="0" x2="0" y2="1">
+                    <stop offset="0%" stopColor="#009c3b" stopOpacity="0.4" />
+                    <stop offset="100%" stopColor="#009c3b" stopOpacity="0" />
+                  </linearGradient>
+                  <linearGradient id="basicTechGrad" x1="0" y1="0" x2="0" y2="1">
+                    <stop offset="0%" stopColor="#ef4444" stopOpacity="0.2" />
+                    <stop offset="100%" stopColor="#ef4444" stopOpacity="0" />
+                  </linearGradient>
+                </defs>
+
+                {/* Curve 2: Traditional Legacy templates (WordPress/Wix) - DECLINING (Red) */}
+                <motion.path
+                  d="M 0 60 C 50 65, 100 80, 150 90 C 200 100, 250 110, 300 120"
+                  fill="none"
+                  stroke="#ef4444"
+                  strokeWidth="2.5"
+                  strokeOpacity="0.6"
+                  strokeDasharray="4 4"
+                  initial={{ pathLength: 0 }}
+                  animate={{ pathLength: 1 }}
+                  transition={{ duration: 1.5, ease: 'easeOut' }}
+                />
+
+                {/* Curve 1: Custom Tech Stack (Bespoke AI + Optimized Speed) - ACCELERATING (Green/Yellow) */}
+                <motion.path
+                  d="M 0 90 C 50 80, 100 50, 150 35 C 200 20, 250 10, 300 2"
+                  fill="none"
+                  stroke="#ffdf00"
+                  strokeWidth="3.5"
+                  initial={{ pathLength: 0 }}
+                  animate={{ pathLength: 1 }}
+                  transition={{ duration: 2, ease: 'easeOut' }}
+                />
+
+                {/* Highlight node circle matching interactive state */}
+                <circle cx="225" cy="15" r="4" fill="#009c3b" className="animate-ping" />
+                <circle cx="225" cy="15" r="3" fill="#ffdf00" />
+              </svg>
+
+              {/* Dynamic Overlay labels */}
+              <div className="relative z-10 flex justify-between h-full items-end pb-1 font-mono text-[8px] text-white/30">
+                {MARKET_YEARS.map((yr, idx) => (
+                  <button
+                    key={yr}
+                    type="button"
+                    onClick={() => setSelectedYearIndex(idx)}
+                    className={`flex flex-col items-center gap-1 font-bold focus:outline-none transition-all cursor-pointer ${
+                      selectedYearIndex === idx ? 'text-br-yellow scale-110 font-bold' : 'hover:text-white/60'
+                    }`}
+                  >
+                    <span className="text-[7px]">
+                      {idx === 0 ? 'Origem' : idx === 4 ? 'Domínio' : ''}
+                    </span>
+                    <span className="bg-black/30 border border-white/5 px-1.5 py-0.5 rounded mt-0.5">
+                      {yr}
+                    </span>
+                  </button>
+                ))}
+              </div>
+            </div>
+
+            {/* Interactive Data Point Feedback Card */}
+            <div className="bg-black/40 border border-white/5 p-3 rounded-2xl flex items-center justify-between text-xs">
+              <div className="flex items-center gap-2">
+                <div className="w-1.5 h-6 bg-br-yellow rounded-full"></div>
+                <div className="text-left">
+                  <span className="text-[8px] uppercase tracking-wider text-white/35 font-mono block">Mapeamento em {MARKET_YEARS[selectedYearIndex]}</span>
+                  <span className="text-[11px] font-black uppercase text-white tracking-tight">Sistemas Inteligentes Otimizados</span>
+                </div>
+              </div>
+              <div className="text-right">
+                <span className="text-[9px] text-[#94a3b8]/40 block">Poder de Capturar Leads</span>
+                <span className="text-xs font-mono font-black italic text-br-green">
+                  {ourTechCurve[selectedYearIndex] * 3}% de Retenção
+                </span>
               </div>
             </div>
           </div>
 
-          <div className="mt-8 pt-6 border-t border-white/5">
-            <button
-              onClick={handleApplyEstimate}
-              className="w-full py-5 bg-green-600 hover:bg-green-500 text-white rounded-2xl font-black text-xs uppercase tracking-[0.3em] transition-all flex items-center justify-center gap-3 active:scale-95 shadow-[0_15px_30px_rgba(34,197,94,0.25)]"
-            >
-              <Send className="w-4 h-4" /> Enviar Proposta Estimada
-            </button>
-            <span className="text-[9px] text-center block text-white/40 mt-3 tracking-wide">
-              *Ir para o formulário de contato com os detalhes pré-carregados
-            </span>
+          {/* REAL ESTIMATED STRATEGY VALUE & PROJECTION DATA CARD */}
+          <div className="bg-black border border-white/5 hover:border-br-yellow/20 rounded-3xl p-6 lg:p-8 relative transition-colors">
+            <div className="absolute top-0 left-0 w-full h-1.5 bg-gradient-to-r from-br-green via-br-yellow to-[#0066ff] rounded-t-3xl"></div>
+            
+            <div className="space-y-6">
+              
+              {/* ROI & Cost Reduction Breakdown Heading */}
+              <div className="flex items-center justify-between border-b border-light border-white/5 pb-4">
+                <div>
+                  <span className="text-white/40 text-[9px] font-black tracking-widest uppercase block">Valor Justo Estimado</span>
+                  <div className="flex items-baseline gap-1.5 mt-0.5">
+                    <span className="text-xl font-bold text-br-green">R$</span>
+                    <span className="text-4xl sm:text-5xl font-black italic tracking-tighter text-white">
+                      {roiMetrics.suggestedInvestment.toLocaleString('pt-BR')}
+                    </span>
+                  </div>
+                  <span className="text-[9px] text-white/30 block mt-1">Investimento único. Sem taxas ocultas.</span>
+                </div>
+
+                <div className="text-right bg-br-green/10 border border-br-green/30 rounded-2xl p-3">
+                  <span className="text-[8px] font-black uppercase tracking-wider text-br-yellow block">Aumento de Conversão</span>
+                  <span className="text-lg font-black text-white italic block mt-0.5">
+                    +{Math.round((roiMetrics.conversionIncreaseMultiplier - 1) * 100)}%
+                  </span>
+                  <span className="text-[8px] text-white/45 font-mono">Índice Projetado</span>
+                </div>
+              </div>
+
+              {/* Three Pill Stats Dashboard */}
+              <div className="grid grid-cols-2 gap-3">
+                <div className="bg-white/[0.02] border border-white/5 rounded-2xl p-3 text-left">
+                  <span className="text-[8px] tracking-wider font-black text-white/30 uppercase block">Retorno Financeiro (ROI)</span>
+                  <span className="text-sm font-black text-br-green italic mt-1 block">
+                     ~ {roiMetrics.projectedRoiMultiplier}x no ano
+                  </span>
+                  <span className="text-[9px] text-white/40 block leading-tight font-light">Estimado sobre investimento</span>
+                </div>
+                
+                <div className="bg-white/[0.02] border border-white/5 rounded-2xl p-3 text-left">
+                  <span className="text-[8px] tracking-wider font-black text-white/30 uppercase block">Processos Automatizados</span>
+                  <span className="text-sm font-black text-white italic mt-1 block">
+                    {wastedHours}h salvas/mês
+                  </span>
+                  <span className="text-[9px] text-white/40 block leading-tight font-light">Equivalente a R$ {roiMetrics.timeSavedCostValue} economizado</span>
+                </div>
+              </div>
+
+              {/* Dynamic bullet items detailing what they get */}
+              <div className="space-y-2 bg-white/[0.01] border border-white/5 rounded-2xl p-4">
+                <h5 className="text-[9.5px] font-black uppercase text-white/30 tracking-wider">Metas Tecnológicas Inclusas:</h5>
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 text-[10px] text-white/70">
+                  <div className="flex items-center gap-1.5">
+                    <Check className="w-3.5 h-3.5 text-br-green shrink-0" />
+                    <span>Velocidade Sub 0.5s garantida</span>
+                  </div>
+                  <div className="flex items-center gap-1.5">
+                    <Check className="w-3.5 h-3.5 text-br-green shrink-0" />
+                    <span>Backup e Cloud inclusos</span>
+                  </div>
+                  <div className="flex items-center gap-1.5">
+                    <Check className="w-3.5 h-3.5 text-br-green shrink-0" />
+                    <span>Layout Autêntico Sem Modelos</span>
+                  </div>
+                  <div className="flex items-center gap-1.5">
+                    <Check className="w-3.5 h-3.5 text-br-green shrink-0" />
+                    <span>Segurança Web Militar</span>
+                  </div>
+                </div>
+              </div>
+
+            </div>
+
+            {/* Simulated Action trigger */}
+            <div className="mt-6 pt-5 border-t border-white/5 flex flex-col gap-2">
+              <button
+                type="button"
+                onClick={handleApplyEstimate}
+                className="w-full py-4 bg-br-yellow hover:brightness-110 text-slate-950 rounded-2xl font-black text-xs sm:text-xs uppercase tracking-[0.25em] transition-all flex items-center justify-center gap-2.5 active:scale-95 shadow-[0_12px_24px_rgba(255,223,0,0.15)] cursor-pointer"
+              >
+                <Send className="w-3.5 h-3.5 text-slate-950" /> Consolidar e Planejar no WhatsApp
+              </button>
+              <span className="text-[8.5px] text-center block text-white/30 tracking-wider">
+                *O orçamento simulado será copiado para o formulário e disparado ao especialista Leonardo Nascimento.
+              </span>
+            </div>
+
           </div>
 
         </div>
