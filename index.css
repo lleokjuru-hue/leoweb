@@ -1,30 +1,35 @@
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap');
-
 html, body {
-  background-color: #02040a;
-  color: #f1f5f9;
-  font-family: 'Inter', sans-serif;
+  background-color: #070D0A;
+  color: #F4F7F5;
+  font-family: 'DM Sans', sans-serif;
   scroll-behavior: smooth;
   margin: 0;
   padding: 0;
+  -webkit-font-smoothing: antialiased;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: 'Plus Jakarta Sans', sans-serif;
 }
 
 ::selection {
-  background-color: #00ff66;
-  color: #02040a;
+  background-color: #10B981;
+  color: #070D0A;
 }
 
-/* Custom premium scrollbar details */
 ::-webkit-scrollbar {
   width: 8px;
 }
+
 ::-webkit-scrollbar-track {
-  background: #02040a;
+  background: #070D0A;
 }
+
 ::-webkit-scrollbar-thumb {
-  background: #00ff66;
+  background: #1E352A;
   border-radius: 99px;
 }
+
 ::-webkit-scrollbar-thumb:hover {
-  background: #ffdf00;
+  background: #10B981;
 }

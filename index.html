@@ -1,41 +1,35 @@
-
 <!DOCTYPE html>
 <html lang="pt-BR" class="scroll-smooth">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Leonasc Web | Sites de Autoridade & Identidade Visual</title>
-    <meta name="description" content="Especialista em sites premium e identidades digitais de alto impacto para profissionais liberais e pequenos negócios." />
-    <!-- Favicon atualizado conforme solicitação -->
+    <title>Leonasc Web - Desenvolvimento de Sites | Consultoria & Engenharia Agronômica</title>
+    <meta name="description" content="Portfólio de Leonardo Nascimento, especializado em engenharia agronômica, manejo de solo, pastagens e produtividade agrícola de precisão." />
+    <meta property="og:title" content="Leonasc Web - Desenvolvimento de Sites | Consultoria & Engenharia Agronômica" />
+    <meta property="og:description" content="Consultoria agronômica independente com foco em correção de solo, nutrição de plantas, pastagens e rentabilidade por hectare." />
     <link rel="icon" type="image/png" href="https://i.ibb.co/F4gZfZ5t/file-0000000099d4720e9b07f94887478ca1.png" />
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
       tailwind.config = {
         theme: {
           extend: {
+            fontFamily: {
+              display: ['"Plus Jakarta Sans"', 'sans-serif'],
+              sans: ['"DM Sans"', 'sans-serif'],
+              mono: ['"JetBrains Mono"', 'monospace'],
+            },
             colors: {
-              green: {
-                300: '#75D973',
-                400: '#00CC4E',
-                500: '#009c3b',
-                600: '#007A2A',
-              },
-              yellow: {
-                300: '#FFF066',
-                400: '#ffdf00',
-                500: '#E6C800',
-                600: '#CCA300',
-              },
-              blue: {
-                400: '#4D80E6',
-                500: '#002776',
-                600: '#001A4D',
-              },
-              br: {
-                green: '#00ff66',
-                yellow: '#ffdf00',
-                blue: '#0066ff',
-                dark: '#02040a',
+              agro: {
+                bg: '#070D0A',
+                surface: '#0D1712',
+                elevated: '#13221B',
+                border: '#1E352A',
+                emerald: '#10B981',
+                leaf: '#22C55E',
+                gold: '#EAB308',
+                amber: '#F59E0B',
+                cream: '#F4F7F5',
+                muted: '#94A89E',
               }
             }
           }
@@ -44,31 +38,11 @@
     </script>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
-    <style>
-      body {
-        font-family: 'Inter', sans-serif;
-        -webkit-font-smoothing: antialiased;
-      }
-      ::selection {
-        background-color: #2563eb;
-        color: white;
-      }
-    </style>
-  <script type="importmap">
-{
-  "imports": {
-    "react/": "https://esm.sh/react@^19.2.3/",
-    "react": "https://esm.sh/react@^19.2.3",
-    "react-dom/": "https://esm.sh/react-dom@^19.2.3/"
-  }
-}
-</script>
-<link rel="stylesheet" href="/index.css">
-</head>
-  <body class="bg-br-dark text-slate-100">
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,400..700;1,9..40,400..700&family=JetBrains+Mono:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/index.css">
+  </head>
+  <body class="bg-agro-bg text-agro-cream font-sans antialiased">
     <div id="root"></div>
-    <script type="module" src="index.tsx"></script>
-  <script type="module" src="/index.tsx"></script>
-</body>
+    <script type="module" src="/index.tsx"></script>
+  </body>
 </html>

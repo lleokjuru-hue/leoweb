@@ -1,218 +1,185 @@
 import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
-import { 
-  Code2, 
-  ExternalLink, 
-  Zap, 
-  Smartphone, 
-  Globe, 
-  Eye, 
-  Maximize2,
-  Lock,
-  Compass,
-  ArrowUpRight
-} from 'lucide-react';
+import { Check, MapPin } from 'lucide-react';
+import { FieldCase } from '../types';
+import { IllustrationFrame } from './IllustrationFrame';
+import { FadeInUp, PREMIUM_EASE } from './ScrollReveal';
 
-interface PortfolioItem {
-  id: string;
-  title: string;
-  category: 'doctors' | 'laywers' | 'ecommerce' | 'premium';
-  categoryLabel: string;
-  metrics: string;
-  description: string;
-  mockColors: { from: string; to: string; border: string };
-  metricsLabel: string;
-  features: string[];
-}
+import heroCampoImg from '../src/assets/images/hero_campo_realista_1793057795734.jpg';
+import soloLavouraImg from '../src/assets/images/solo_lavoura_realista_1793057796140.jpg';
+import propriedadePastagemImg from '../src/assets/images/propriedade_pastagem_realista_1793057798602.jpg';
+import colheitaPrecisaoImg from '../src/assets/images/colheita_precisao_realista_1793057798213.jpg';
 
-const PORTFOLIO_ITEMS: PortfolioItem[] = [
+const FIELD_CASES: FieldCase[] = [
   {
-    id: 'p1',
-    title: 'Dr. Henrique Vasconcelos',
-    category: 'doctors',
-    categoryLabel: 'Clínica & Cirurgia Plástica',
-    metrics: 'Lighthouse 100/100',
-    metricsLabel: 'Speed Score',
-    description: 'Interface de luxo para conversão de tratamentos premium e agendamento direto de procedimentos estéticos.',
-    mockColors: { 
-      from: 'from-[#0d1f14] to-[#011409]', 
-      border: 'border-br-green/30 group-hover:border-br-green' 
-    },
-    features: ['Agendamento WhatsApp', 'Copywriting Médico Especializado', 'Otimização Local SEO'],
-    // We will draw beautifully inside the card
+    id: 'case-soja-perfil',
+    title: 'Correção de Perfil & Teto Produtivo na Soja',
+    region: 'Área de Grãos — 480 hectares',
+    category: 'graos',
+    categoryLabel: 'Grãos & Lavoura',
+    description:
+      'Diagnóstico por malha georreferenciada identificou barreira química de alumínio em subsuperfície. Com calagem ajustada e gessagem localizada, o sistema radicular atingiu maior profundidade e resistiu a 14 dias de estiagem.',
+    primaryMetric: '+15,4 sc/ha',
+    secondaryMetric: 'Média final: 71,2 sc/ha',
+    image: heroCampoImg,
+    imageAlt: 'Lavoura comercial de soja vigorosa ao amanhecer em solo fértil corrigido',
+    highlights: [
+      'Elevação da saturação por bases (V%) para 65%',
+      'Redução de 24% no gasto com potássio mal distribuído',
+      'Padronização de estande e fechamento rápido de entrelinha',
+    ],
   },
   {
-    id: 'p2',
-    title: 'Almeida Advocacia de Elite',
-    category: 'laywers',
-    categoryLabel: 'Direito Corporativo & Tributário',
-    metrics: '+280% Contatos',
-    metricsLabel: 'Aumento de Conversão',
-    description: 'Site institucional refinado com paleta sóbria em azul escuro e dourado focando em atrair grandes corporações.',
-    mockColors: { 
-      from: 'from-[#05162a] to-[#000814]', 
-      border: 'border-blue-500/20 group-hover:border-blue-400' 
-    },
-    features: ['Identidade Visual Exclusiva', 'Artigos Técnicos Otimizados', 'Layout Ultraveloz'],
+    id: 'case-pastagem-rotacionada',
+    title: 'Reforma & Intensificação em Pastejo Rotacionado',
+    region: 'Pecuária de Corte — 320 hectares',
+    category: 'pastagem',
+    categoryLabel: 'Pastagem & Pecuária',
+    description:
+      'Recuperação de pastagem degradada sem necessidade de abertura de área nova. Dimensionamento hidráulico, divisão técnica de piquetes, fosfatagem corretiva e ajuste preciso de altura de entrada e saída.',
+    primaryMetric: '3,3 UA/ha',
+    secondaryMetric: 'Antes: 1,1 UA/ha na mesma área',
+    image: propriedadePastagemImg,
+    imageAlt: 'Vista aérea realista de propriedade rural com piquetes verdes de pastejo rotacionado e aguada',
+    highlights: [
+      'Triplicação da capacidade de suporte nas águas',
+      'Eliminação de plantas invasoras sem reforma mecânica total',
+      'Ganho médio diário (GMD) elevado com forragem de alta proteína',
+    ],
   },
   {
-    id: 'p3',
-    title: 'Vanguard Luxury Estate',
-    category: 'premium',
-    categoryLabel: 'Imóveis de Alto Padrão Network',
-    metrics: '< 0.4s Carregamento',
-    metricsLabel: 'Time-to-Interactive',
-    description: 'Imobiliária boutique internacional. Filtro simplificado de portfólio físico e contatos integrados por região.',
-    mockColors: { 
-      from: 'from-[#1a1100] to-[#0d0800]', 
-      border: 'border-br-yellow/30 group-hover:border-br-yellow' 
-    },
-    features: ['Galeria Inteligente', 'Design Imersivo Cinematográfico', 'Banco de Dados Rápido'],
+    id: 'case-solo-fertilidade',
+    title: 'Nutrição de Base & Equilíbrio Químico do Solo',
+    region: 'Sistema Soja / Milho — 210 hectares',
+    category: 'solo',
+    categoryLabel: 'Correção de Solo',
+    description:
+      'Substituição de formulações comerciais engessadas por recomendação independente baseada em análise completa de macro e micronutrientes (Boro, Zinco e Enxofre), cortando excessos e destravando o arranque inicial.',
+    primaryMetric: '-29% Custo NPK',
+    secondaryMetric: 'Economia de R$ 610/ha em adubação',
+    image: soloLavouraImg,
+    imageAlt: 'Fotografia realista em close de solo agrícola escuro e fértil com plantas jovens de milho e soja',
+    highlights: [
+      'Laudo 100% isento, sem vínculo com revendas de insumos',
+      'Desenvolvimento radicular vigoroso nos primeiros 25 dias',
+      'Maior aproveitamento de fósforo remanescente no solo',
+    ],
   },
   {
-    id: 'p4',
-    title: 'NutriFit Labs Suplementos',
-    category: 'ecommerce',
-    categoryLabel: 'Suplementação Avançada',
-    metrics: 'R$ 0 Mensalidade',
-    metricsLabel: 'Infraestrutura Própria',
-    description: 'Loja virtual completa com carrinho nativo customizado sem comissões presas ou taxas fixas por vendas.',
-    mockColors: { 
-      from: 'from-[#11052c] to-[#080216]', 
-      border: 'border-purple-500/20 group-hover:border-purple-400' 
-    },
-    features: ['checkout Simplificado', 'Controle Integrado de Produtos', 'Pixel de Anúncios Correto'],
-  }
+    id: 'case-colheita-safrinha',
+    title: 'Planejamento Fitossanitário & Colheita de Precisão',
+    region: 'Sucessão Safra / Safrinha — 850 hectares',
+    category: 'graos',
+    categoryLabel: 'Grãos & Lavoura',
+    description:
+      'Monitoramento presencial semanal de pragas e doenças (MIP) eliminou duas pulverizações desnecessárias e posicionou fungicidas preventivos no momento exato, preservando área foliar sadia até o enchimento de grãos.',
+    primaryMetric: '+26 sc/ha Milho',
+    secondaryMetric: 'Perda na colheita reduzida para < 0,8%',
+    image: colheitaPrecisaoImg,
+    imageAlt: 'Campo dourado de grãos em ponto de colheita ao pôr do sol com colheitadeira ao fundo',
+    highlights: [
+      'Controle rigoroso de cigarrinha e percevejo no limiar econômico',
+      'Regulagem técnica de plataforma na pré-colheita',
+      'Relatório de rentabilidade talhão por talhão',
+    ],
+  },
 ];
 
 export const PortfolioShowcase: React.FC = () => {
-  const [filter, setFilter] = useState<'all' | 'doctors' | 'laywers' | 'ecommerce' | 'premium'>('all');
-  const [hoveredId, setHoveredId] = useState<string | null>(null);
+  const [filter, setFilter] = useState<'todos' | 'graos' | 'pastagem' | 'solo'>('todos');
 
-  const filteredItems = filter === 'all' 
-    ? PORTFOLIO_ITEMS 
-    : PORTFOLIO_ITEMS.filter(item => item.category === filter);
+  const filteredCases =
+    filter === 'todos' ? FIELD_CASES : FIELD_CASES.filter((item) => item.category === filter);
 
   return (
-    <div className="space-y-12 text-left">
-      
-      {/* Category Tabs */}
-      <div className="flex flex-wrap gap-2 pb-2 justify-start items-center">
+    <div className="space-y-10">
+      {/* Filter Controls */}
+      <FadeInUp delay={0.05} yOffset={20} amount={0.2} className="flex flex-wrap gap-2">
         {[
-          { id: 'all', label: 'Todos os Projetos' },
-          { id: 'doctors', label: 'Médicos & Clínicas' },
-          { id: 'laywers', label: 'Advocacia & Premium' },
-          { id: 'ecommerce', label: 'Lojas e E-commerces' },
-          { id: 'premium', label: 'Imobiliárias & Outros' }
-        ].map((btn) => (
-          <button
-            key={btn.id}
-            onClick={() => setFilter(btn.id as any)}
-            className={`px-5 py-2.5 rounded-full text-[10px] font-black uppercase tracking-widest transition-all cursor-pointer ${
-              filter === btn.id
-                ? 'bg-br-yellow text-slate-950 font-black shadow-md shadow-br-yellow/15'
-                : 'bg-white/[0.02] hover:bg-white/5 border border-white/5 text-white/50 hover:text-white'
-            }`}
-          >
-            {btn.label}
-          </button>
-        ))}
-      </div>
-
-      {/* Grid containing high-fidelity mocked sites */}
-      <div className="grid md:grid-cols-2 gap-8">
-        <AnimatePresence mode="popLayout">
-          {filteredItems.map((project) => (
-            <motion.div
-              layout
-              key={project.id}
-              initial={{ opacity: 0, scale: 0.95 }}
-              animate={{ opacity: 1, scale: 1 }}
-              exit={{ opacity: 0, scale: 0.95 }}
-              transition={{ duration: 0.4 }}
-              className={`group relative rounded-[2.5rem] bg-gradient-to-br ${project.mockColors.from} p-6 md:p-8 border ${project.mockColors.border} flex flex-col justify-between h-[450px] overflow-hidden transition-all duration-500`}
-              onMouseEnter={() => setHoveredId(project.id)}
-              onMouseLeave={() => setHoveredId(null)}
+          { id: 'todos', label: 'Todos os Resultados' },
+          { id: 'graos', label: 'Grãos & Lavoura' },
+          { id: 'pastagem', label: 'Pastagem & Pecuária' },
+          { id: 'solo', label: 'Correção de Solo' },
+        ].map((btn) => {
+          const isActive = filter === btn.id;
+          return (
+            <button
+              key={btn.id}
+              type="button"
+              onClick={() => setFilter(btn.id as typeof filter)}
+              className={`px-4 py-2.5 rounded-xl text-xs font-semibold transition-all cursor-pointer ${
+                isActive
+                  ? 'bg-agro-emerald text-agro-bg shadow-sm'
+                  : 'bg-agro-surface border border-agro-border text-agro-muted hover:text-agro-cream hover:border-agro-emerald/40'
+              }`}
             >
-              
-              {/* Glassmorphic Grid Overlay */}
-              <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top_right,rgba(255,255,255,0.03),transparent_50%)] pointer-events-none"></div>
-              
-              <div>
-                {/* Meta details */}
-                <div className="flex justify-between items-center mb-6">
-                  <span className="text-[9px] font-bold tracking-[0.25em] text-white/40 uppercase bg-white/[0.02] border border-white/5 px-2.5 py-1 rounded-md">
-                    {project.categoryLabel}
-                  </span>
-                  
-                  <div className="flex items-center gap-1.5">
-                    <span className="w-2 h-2 rounded-full bg-br-green animate-pulse"></span>
-                    <span className="text-[10px] font-bold text-white/60">Selo Veloz</span>
-                  </div>
-                </div>
+              {btn.label}
+            </button>
+          );
+        })}
+      </FadeInUp>
 
-                {/* Main Content */}
-                <h4 className="text-2xl font-black uppercase text-white tracking-tight italic mb-3 group-hover:text-br-yellow transition-colors">
-                  {project.title}
-                </h4>
-                
-                <p className="text-xs text-white/50 font-light leading-relaxed max-w-sm mb-6">
-                  {project.description}
-                </p>
-
-                {/* Key Metric highlight */}
-                <div className="inline-flex flex-col bg-white/[0.03] border border-white/5 rounded-2xl p-4 mb-6">
-                  <span className="text-lg font-black text-white italic tracking-tight leading-none">
-                    {project.metrics}
-                  </span>
-                  <span className="text-[8px] font-black uppercase tracking-wider text-[#94a3b8]/40 mt-1 block">
-                    {project.metricsLabel}
-                  </span>
-                </div>
+      {/* Case Studies Grid */}
+      <FadeInUp delay={0.1} yOffset={28} amount={0.08}>
+        <div className="grid md:grid-cols-2 gap-8">
+          <AnimatePresence mode="popLayout">
+            {filteredCases.map((item, idx) => (
+              <motion.article
+                layout
+                key={item.id}
+                initial={{ opacity: 0, y: 24 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, scale: 0.97 }}
+                transition={{
+                  duration: 0.55,
+                  delay: idx * 0.07,
+                  ease: PREMIUM_EASE,
+                }}
+                className="bg-agro-surface border border-agro-border hover:border-agro-emerald/40 hover:-translate-y-0.5 rounded-3xl overflow-hidden flex flex-col justify-between transition-all duration-300"
+              >
+              <div className="p-4 sm:p-5 pb-0">
+                <IllustrationFrame
+                  src={item.image}
+                  alt={item.imageAlt}
+                  aspectClass="aspect-[4/3]"
+                  caption={item.categoryLabel}
+                  metricBadge={item.primaryMetric}
+                />
               </div>
 
-              {/* Graphical simulation resembling a high-tech website mockup */}
-              <div className="relative h-28 w-full bg-black/60 rounded-2xl border border-white/5 overflow-hidden p-3 flex flex-col justify-between">
-                <div className="flex items-center justify-between border-b border-white/5 pb-2">
-                  <div className="flex gap-1">
-                    <span className="w-1.5 h-1.5 rounded-full bg-red-400"></span>
-                    <span className="w-1.5 h-1.5 rounded-full bg-yellow-400"></span>
-                    <span className="w-1.5 h-1.5 rounded-full bg-green-400"></span>
-                  </div>
-                  <div className="text-[7.5px] font-mono text-white/30 truncate max-w-[150px]">
-                    https://{project.title.toLowerCase().replace(/[^a-z0-9]/g, '')}.com.br
-                  </div>
-                  <Maximize2 className="w-2.5 h-2.5 text-white/30" />
-                </div>
-                
-                {/* Simplified wireframe representation */}
-                <div className="space-y-2 mt-2">
-                  <div className="flex justify-between items-center">
-                    <div className="h-2 w-12 bg-white/20 rounded"></div>
-                    <div className="flex gap-1.5">
-                      <div className="h-1.5 w-6 bg-white/10 rounded"></div>
-                      <div className="h-1.5 w-6 bg-white/10 rounded"></div>
-                    </div>
-                  </div>
-                  <div className="h-4 w-full bg-gradient-to-r from-br-yellow/10 to-br-green/10 rounded border border-white/5 flex items-center justify-between px-2">
-                    <span className="text-[6.5px] text-white/60 font-black uppercase tracking-widest italic">
-                      Conversão Ativada
+              <div className="p-6 sm:p-8 flex-1 flex flex-col justify-between space-y-6">
+                <div>
+                  <div className="flex flex-wrap items-center justify-between gap-2 text-xs text-agro-muted mb-2">
+                    <span className="inline-flex items-center gap-1.5">
+                      <MapPin className="w-3.5 h-3.5 text-agro-emerald" />
+                      {item.region}
                     </span>
-                    <ArrowUpRight className="w-2 h-2 text-br-yellow" />
+                    <span className="font-mono tabular-nums text-agro-gold font-medium">
+                      {item.secondaryMetric}
+                    </span>
                   </div>
+
+                  <h3 className="text-xl sm:text-2xl font-display font-bold text-agro-cream tracking-tight mb-3">
+                    {item.title}
+                  </h3>
+
+                  <p className="text-sm text-agro-muted leading-relaxed">{item.description}</p>
                 </div>
-              </div>
 
-              {/* Hover highlight element */}
-              <div className="absolute bottom-5 right-5 p-3 rounded-full bg-white text-slate-950 opacity-0 group-hover:opacity-100 shadow-xl scale-75 group-hover:scale-100 transition-all duration-300">
-                <ExternalLink className="w-4 h-4" />
+                <ul className="pt-5 border-t border-agro-border space-y-2.5">
+                  {item.highlights.map((feat) => (
+                    <li key={feat} className="flex items-start gap-2.5 text-xs sm:text-sm text-agro-cream/85">
+                      <Check className="w-4 h-4 text-agro-emerald shrink-0 mt-0.5" />
+                      <span>{feat}</span>
+                    </li>
+                  ))}
+                </ul>
               </div>
-
-            </motion.div>
+            </motion.article>
           ))}
-        </AnimatePresence>
-      </div>
-
+          </AnimatePresence>
+        </div>
+      </FadeInUp>
     </div>
   );
 };

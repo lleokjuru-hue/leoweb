@@ -1,26 +1,29 @@
-export interface Project {
+export interface FieldCase {
   id: string;
   title: string;
-  category: 'website' | 'landing' | 'brand';
+  region: string;
+  category: 'graos' | 'pastagem' | 'solo';
   categoryLabel: string;
   description: string;
-  metrics: string;
+  primaryMetric: string;
+  secondaryMetric: string;
   image: string;
-  tags: string[];
-  link?: string;
+  imageAlt: string;
+  highlights: string[];
 }
 
-export interface Service {
+export interface AgroService {
   id: string;
+  number: string;
   title: string;
+  subtitle: string;
   description: string;
-  benefits: string[];
-  features: string[];
-  deliveryTime: string;
-  priceFrom: string;
+  deliverables: string[];
+  featured?: boolean;
 }
 
-export interface faqItem {
+export interface FaqItem {
   question: string;
   answer: string;
 }
+

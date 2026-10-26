@@ -1,72 +1,72 @@
 import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
-import { HelpCircle, ChevronDown } from 'lucide-react';
-
-interface FaqItem {
-  question: string;
-  answer: string;
-}
+import { ChevronDown } from 'lucide-react';
+import { FaqItem } from '../types';
+import { StaggerContainer, StaggerItem, PREMIUM_EASE } from './ScrollReveal';
 
 const FAQ_ITEMS: FaqItem[] = [
   {
-    question: "O site possui algum tipo de mensalidade obrigatória?",
-    answer: "Não. Nós criamos sites e landing pages que pertencem 100% a você. Você faz um investimento único pelo desenvolvimento. A única taxa periódica que existe na internet é o registro do seu domínio (cerca de R$ 40 por ano no Registro.br) e a sua conta de hospedagem (cerca de R$ 10 a R$ 25 por mês)."
+    question: 'A consultoria possui vínculo com lojas ou revendas de insumos agrícolas?',
+    answer:
+      'Não. Nosso trabalho é 100% independente. Não recebemos comissão sobre venda de sementes, fertilizantes ou defensivos. Isso garante que você aplique apenas o que o solo e a lavoura realmente precisam, gerando economia imediata já na compra dos insumos.',
   },
   {
-    question: "Quanto tempo demora para meu projeto ficar online?",
-    answer: "Uma Landing Page estratégica de alta conversão costuma ficar pronta entre 5 a 10 dias úteis. Projetos corporativos maiores ou plataformas institucionais de alta fidelidade levam em média de 3 a 4 semanas, a depender do número de telas e integrações selecionadas."
+    question: 'Como funciona a coleta de solo e a primeira visita na propriedade?',
+    answer:
+      'Iniciamos com o levantamento histórico dos talhões ou piquetes e realizamos a amostragem técnica georreferenciada (0–20 cm e 20–40 cm quando necessário). Após o resultado do laboratório, entregamos o caderno completo de calagem, gessagem e adubação explicado passo a passo.',
   },
   {
-    question: "Como funciona se eu precisar fazer alterações no futuro?",
-    answer: "Nossos códigos são limpos e modulares. Nós entregamos um guia em vídeo prático ensinando você ou seu time a mudar textos, fotos e links em poucos minutos. Caso prefira, também oferecemos planos de suporte técnico e manutenção preventiva sob demanda."
+    question: 'Vocês atendem pequenos e médios produtores ou apenas grandes fazendas?',
+    answer:
+      'Atendemos propriedades de diferentes portes — desde áreas familiares e sítios produtivos a partir de 20 hectares até fazendas comerciais de grãos e pecuária extensiva ou intensiva. O pacote técnico é dimensionado exatamente para a realidade da sua área.',
   },
   {
-    question: "Não tenho textos nem imagens prontas. Vocês criam?",
-    answer: "Sim! A consultoria criativa inclui a estruturação de textos persuasivos (copywriting) voltados para conversão e busca das melhores imagens e vetores licenciados para o seu segmento."
+    question: 'Em quanto tempo vejo retorno financeiro sobre o valor da consultoria?',
+    answer:
+      'Na maioria das propriedades, apenas o ajuste fino na compra de calcário, fósforo, potássio e defensivos (cortando formulações caras desnecessárias) já paga integralmente o investimento da consultoria antes mesmo da colheita ou do giro do lote.',
   },
   {
-    question: "Como o site me ajuda a conseguir mais clientes no Google?",
-    answer: "Todos os nossos projetos contam com indexação técnica nativa recomendada pelo Google (SEO de alto padrão). Isso significa códigos sem erros do Lighthouse, tags corretas e sitemap que aceleram o ranqueamento orgânico da sua marca nas pesquisas regionais."
+    question: 'Também fazem projetos de reforma e divisão de pastagens para gado de corte e leite?',
+    answer:
+      'Sim. Projetamos a recuperação de pastos degradados, escolha da forrageira ideal para o seu tipo de solo e topografia, dimensionamento de piquetes para pastejo rotacionado e plano de suplementação estratégica na seca e nas águas.',
   },
   {
-    question: "Quais são as formas de pagamento disponíveis?",
-    answer: "Trabalhamos de forma flexível: faturamento em 2x (sinal de 50% para início e 50% após aprovação pré-entrega) ou em até 12x no cartão de crédito via intermediador de pagamentos."
-  }
+    question: 'Como faço para agendar uma conversa ou diagnóstico inicial?',
+    answer:
+      'Basta utilizar a calculadora acima ou preencher os dados na seção de contato abaixo. O atendimento é feito diretamente pelo Engenheiro Agrônomo responsável via WhatsApp, sem intermediários.',
+  },
 ];
 
 export const FaqSection: React.FC = () => {
-  const [openIndex, setOpenIndex] = useState<number | null>(null);
+  const [openIndex, setOpenIndex] = useState<number | null>(0);
 
   return (
-    <div className="max-w-4xl mx-auto space-y-4">
+    <StaggerContainer staggerDelay={0.08} amount={0.1} className="max-w-3xl mx-auto space-y-3">
       {FAQ_ITEMS.map((item, index) => {
         const isOpen = openIndex === index;
         return (
-          <div 
-            key={index} 
-            className={`border rounded-3xl transition-all duration-300 ${
-              isOpen 
-                ? 'bg-green-600/5 border-green-500/20 shadow-lg shadow-green-500/5' 
-                : 'bg-white/[0.01] border-white/5 hover:bg-white/[0.02]'
+          <StaggerItem
+            key={item.question}
+            yOffset={20}
+            className={`border rounded-2xl transition-colors ${
+              isOpen
+                ? 'bg-agro-surface border-agro-emerald/40'
+                : 'bg-agro-surface/60 border-agro-border hover:border-agro-emerald/25'
             }`}
           >
             <button
+              type="button"
               onClick={() => setOpenIndex(isOpen ? null : index)}
-              className="w-full flex items-center justify-between p-6 md:p-8 text-left gap-4"
+              className="w-full flex items-center justify-between p-5 sm:p-6 text-left gap-4 cursor-pointer"
             >
-              <div className="flex items-center gap-4">
-                <div className={`p-2 rounded-xl border transition-colors ${
-                  isOpen ? 'bg-green-600 text-white border-green-500' : 'bg-slate-900 border-white/5 text-yellow-400'
-                }`}>
-                  <HelpCircle className="w-4 h-4" />
-                </div>
-                <span className="text-sm md:text-base font-bold uppercase tracking-tight text-white leading-snug">
-                  {item.question}
-                </span>
-              </div>
-              <ChevronDown className={`w-4 h-4 text-white/40 transition-transform duration-300 shrink-0 ${
-                isOpen ? 'rotate-180 text-yellow-400' : ''
-              }`} />
+              <span className="text-sm sm:text-base font-display font-semibold text-agro-cream leading-snug">
+                {item.question}
+              </span>
+              <ChevronDown
+                className={`w-5 h-5 text-agro-muted transition-transform duration-300 shrink-0 ${
+                  isOpen ? 'rotate-180 text-agro-emerald' : ''
+                }`}
+              />
             </button>
 
             <AnimatePresence initial={false}>
@@ -75,18 +75,18 @@ export const FaqSection: React.FC = () => {
                   initial={{ height: 0, opacity: 0 }}
                   animate={{ height: 'auto', opacity: 1 }}
                   exit={{ height: 0, opacity: 0 }}
-                  transition={{ duration: 0.3 }}
+                  transition={{ duration: 0.3, ease: PREMIUM_EASE }}
                   className="overflow-hidden"
                 >
-                  <p className="px-6 md:px-8 pb-8 pt-2 text-xs md:text-sm font-light leading-relaxed text-white/60 border-t border-white/5">
+                  <p className="px-5 sm:px-6 pb-6 pt-1 text-sm leading-relaxed text-agro-muted border-t border-agro-border/60">
                     {item.answer}
                   </p>
                 </motion.div>
               )}
             </AnimatePresence>
-          </div>
+          </StaggerItem>
         );
       })}
-    </div>
+    </StaggerContainer>
   );
 };
