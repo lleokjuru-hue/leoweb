@@ -15,6 +15,8 @@ import {
   MessageCircle,
   AlertCircle,
   CheckCircle2,
+  Copy,
+  UserPlus,
 } from 'lucide-react';
 import { BudgetCalculator } from './components/BudgetCalculator';
 import { FaqSection } from './components/FaqSection';
@@ -22,6 +24,16 @@ import { PortfolioShowcase } from './components/PortfolioShowcase';
 import { ResultDemo } from './components/ResultDemo';
 import { IllustrationFrame } from './components/IllustrationFrame';
 import { FadeInUp, StaggerContainer, StaggerItem, PREMIUM_EASE } from './components/ScrollReveal';
+import {
+  WhatsappModal,
+  WHATSAPP_DISPLAY,
+  WHATSAPP_COPY_VALUE,
+  WHATSAPP_CLEAN_URL,
+  WHATSAPP_ALT_NO9_URL,
+  WHATSAPP_APP_URI,
+  VCARD_DATA_URI,
+  copyToClipboardSafe,
+} from './components/WhatsappModal';
 
 import heroCampoImg from './src/assets/images/hero_campo_realista_1793057795734.jpg';
 import soloLavouraImg from './src/assets/images/solo_lavoura_realista_1793057796140.jpg';
@@ -29,10 +41,6 @@ import propriedadePastagemImg from './src/assets/images/propriedade_pastagem_rea
 
 // LOGO OFICIAL PRESERVADA
 const LOGO_URL = 'https://i.ibb.co/sdcRqjMf/file-00000000bae0720eb4360633486b9fe7.png';
-
-// WHATSAPP OFICIAL ATUALIZADO (Único canal externo — sem outras redes sociais)
-const WHATSAPP_NUMBER = '5597936181045';
-const WHATSAPP_DISPLAY = '+55 (97) 93618-1045';
 
 const BrandMark: React.FC<{ className?: string }> = ({ className = 'h-8 sm:h-9' }) => {
   const [imgError, setImgError] = useState(false);
@@ -60,6 +68,11 @@ const App: React.FC = () => {
   const [isScrolled, setIsScrolled] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
+  // Personal WhatsApp Modal State
+  const [whatsappModalOpen, setWhatsappModalOpen] = useState(false);
+  const [modalMessage, setModalMessage] = useState<string | undefined>(undefined);
+  const [copiedInlinePhone, setCopiedInlinePhone] = useState(false);
+
   // Contact Form State
   const [producerName, setProducerName] = useState('');
   const [producerCity, setProducerCity] = useState('');
@@ -72,13 +85,26 @@ const App: React.FC = () => {
   const [simulatedPrice, setSimulatedPrice] = useState<number | null>(null);
 
   const contactFormRef = useRef<HTMLDivElement>(null);
-  const whatsappAnchorRef = useRef<HTMLAnchorElement>(null);
 
   useEffect(() => {
     const handleScroll = () => setIsScrolled(window.scrollY > 32);
     window.addEventListener('scroll', handleScroll);
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
+
+  const openDirectWhatsappModal = (customMsg?: string) => {
+    setModalMessage(customMsg);
+    setMobileMenuOpen(false);
+    setWhatsappModalOpen(true);
+  };
+
+  const handleCopyPhoneInline = async () => {
+    const ok = await copyToClipboardSafe(WHATSAPP_COPY_VALUE);
+    if (ok) {
+      setCopiedInlinePhone(true);
+      window.setTimeout(() => setCopiedInlinePhone(false), 2500);
+    }
+  };
 
   const scrollTo = (id: string) => {
     const el = document.getElementById(id);
@@ -110,55 +136,53 @@ const App: React.FC = () => {
     setReadyForWhatsapp(false);
   };
 
-  const buildWhatsappUrl = () => {
+  const buildPlainMessage = () => {
     let text = `Olá! Gostaria de falar com o Engenheiro Agrônomo sobre consultoria técnica rural.\n\n`;
     if (producerName.trim()) {
-      text += `*Produtor / Propriedade:* ${producerName.trim()}\n`;
+      text += `Produtor / Propriedade: ${producerName.trim()}\n`;
     }
     if (producerCity.trim()) {
-      text += `*Município / Região:* ${producerCity.trim()}\n`;
+      text += `Município / Região: ${producerCity.trim()}\n`;
     }
     if (simulatedPrice) {
-      text += `\n*Simulação Realizada no Site (Estimativa: R$ ${simulatedPrice.toLocaleString('pt-BR')}):*\n${simulatedSummary}\n`;
+      text += `\nSimulação Realizada no Site (Estimativa: R$ ${simulatedPrice.toLocaleString('pt-BR')}):\n${simulatedSummary}\n`;
     } else if (producerDetails.trim()) {
-      text += `\n*Necessidade na Propriedade:*\n${producerDetails.trim()}\n`;
+      text += `\nNecessidade na Propriedade:\n${producerDetails.trim()}\n`;
     }
-    return `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(text)}`;
+    return text.trim();
   };
+
+  const isFormValid = producerName.trim().length > 0 && producerCity.trim().length > 0;
 
   const handleFormSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    if (!producerName.trim() || !producerCity.trim()) {
+    if (!isFormValid) {
       setValidationError('Por favor, informe seu nome (ou nome da fazenda) e o município da propriedade.');
       return;
     }
 
+    const msg = buildPlainMessage();
     setValidationError('');
     setReadyForWhatsapp(true);
-
-    // Trigger native anchor navigation without window.open
-    if (whatsappAnchorRef.current) {
-      whatsappAnchorRef.current.click();
-    }
+    void copyToClipboardSafe(msg);
+    openDirectWhatsappModal(msg);
   };
 
-  const directWhatsappHref = `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(
-    'Olá! Gostaria de solicitar um diagnóstico agronômico para minha propriedade rural.'
-  )}`;
+  const handleValidAnchorClick = () => {
+    const msg = buildPlainMessage();
+    setValidationError('');
+    setReadyForWhatsapp(true);
+    void copyToClipboardSafe(msg);
+    setModalMessage(msg);
+  };
 
   return (
     <div className="min-h-screen bg-agro-bg text-agro-cream font-sans overflow-x-hidden">
-      {/* Hidden native anchor for validated form handoff */}
-      <a
-        ref={whatsappAnchorRef}
-        href={buildWhatsappUrl()}
-        target="_blank"
-        rel="noopener noreferrer"
-        className="hidden"
-        aria-hidden="true"
-      >
-        Abrir WhatsApp
-      </a>
+      <WhatsappModal
+        isOpen={whatsappModalOpen}
+        onClose={() => setWhatsappModalOpen(false)}
+        prefilledMessage={modalMessage}
+      />
 
       {/* 1. TOP NAVIGATION BAR (3-Zone Clean Architecture) */}
       <motion.header
@@ -206,15 +230,14 @@ const App: React.FC = () => {
 
           {/* Zone 3: Single Primary WhatsApp CTA */}
           <div className="hidden lg:flex items-center shrink-0">
-            <a
-              href={directWhatsappHref}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="px-5 py-2.5 bg-agro-emerald hover:bg-agro-leaf text-agro-bg rounded-xl font-display font-bold text-xs tracking-wide transition-colors inline-flex items-center gap-2 whitespace-nowrap"
+            <button
+              type="button"
+              onClick={() => openDirectWhatsappModal()}
+              className="px-5 py-2.5 bg-agro-emerald hover:bg-agro-leaf text-agro-bg rounded-xl font-display font-bold text-xs tracking-wide transition-colors inline-flex items-center gap-2 whitespace-nowrap cursor-pointer"
             >
               <MessageCircle className="w-4 h-4" />
               Agendar Visita Técnica
-            </a>
+            </button>
           </div>
 
           {/* Mobile Menu Toggle */}
@@ -261,19 +284,19 @@ const App: React.FC = () => {
 
             <div className="bg-agro-surface border border-agro-border rounded-2xl p-5 space-y-3">
               <span className="text-xs font-semibold uppercase tracking-wider text-agro-muted block">
-                Atendimento Direto no WhatsApp
+                Atendimento Direto • WhatsApp Pessoal
               </span>
-              <a
-                href={directWhatsappHref}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="text-lg font-mono font-bold text-agro-emerald block hover:underline"
-              >
+              <span className="text-lg font-mono font-bold text-agro-emerald select-all block">
                 {WHATSAPP_DISPLAY}
-              </a>
-              <p className="text-xs text-agro-muted">
-                Consultoria agronômica especializada em solo, lavouras e pastagens.
-              </p>
+              </span>
+              <button
+                type="button"
+                onClick={() => openDirectWhatsappModal()}
+                className="w-full py-3 px-4 bg-agro-emerald text-agro-bg rounded-xl font-display font-bold text-xs flex items-center justify-center gap-2 cursor-pointer"
+              >
+                <MessageCircle className="w-4 h-4" />
+                Chamar no WhatsApp
+              </button>
             </div>
           </motion.div>
         )}
@@ -325,15 +348,14 @@ const App: React.FC = () => {
                   <ArrowRight className="w-4 h-4" />
                 </button>
 
-                <a
-                  href={directWhatsappHref}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="px-7 py-4 bg-agro-surface hover:bg-agro-elevated border border-agro-border text-agro-cream rounded-xl font-display font-semibold text-sm transition-all inline-flex items-center justify-center gap-2.5"
+                <button
+                  type="button"
+                  onClick={() => openDirectWhatsappModal()}
+                  className="px-7 py-4 bg-agro-surface hover:bg-agro-elevated border border-agro-border text-agro-cream rounded-xl font-display font-semibold text-sm transition-all inline-flex items-center justify-center gap-2.5 cursor-pointer"
                 >
                   <MessageCircle className="w-4 h-4 text-agro-emerald" />
                   Falar pelo WhatsApp
-                </a>
+                </button>
               </StaggerItem>
 
               {/* Quantified Agronomic Proof Bar */}
@@ -636,25 +658,60 @@ const App: React.FC = () => {
                 </div>
 
                 <div className="space-y-5 pt-2">
-                  <div className="flex items-start gap-4 p-4 rounded-2xl bg-agro-bg border border-agro-border">
-                    <div className="p-3 rounded-xl bg-agro-emerald/15 text-agro-emerald shrink-0">
-                      <Phone className="w-5 h-5" />
+                  <div className="p-5 rounded-2xl bg-agro-bg border border-agro-border space-y-4">
+                    <div className="flex items-start gap-4">
+                      <div className="p-3 rounded-xl bg-agro-emerald/15 text-agro-emerald shrink-0">
+                        <Phone className="w-5 h-5" />
+                      </div>
+                      <div>
+                        <span className="text-xs font-semibold uppercase tracking-wider text-agro-muted block">
+                          WhatsApp Pessoal Direto
+                        </span>
+                        <span className="text-lg font-mono font-bold text-agro-emerald select-all mt-0.5 block">
+                          {WHATSAPP_DISPLAY}
+                        </span>
+                        <span className="text-xs text-agro-muted block mt-0.5">
+                          Atendimento direto com o Engenheiro Agrônomo (sem robôs ou intermediários)
+                        </span>
+                      </div>
                     </div>
-                    <div>
-                      <span className="text-xs font-semibold uppercase tracking-wider text-agro-muted block">
-                        WhatsApp Oficial Exclusivo
-                      </span>
-                      <a
-                        href={directWhatsappHref}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="text-lg font-mono font-bold text-agro-emerald hover:underline mt-0.5 block"
+
+                    <div className="flex flex-wrap gap-2 pt-1">
+                      <button
+                        type="button"
+                        onClick={() => openDirectWhatsappModal()}
+                        className="px-3.5 py-2 rounded-xl bg-agro-emerald hover:bg-agro-leaf text-agro-bg font-display font-bold text-xs inline-flex items-center gap-1.5 transition-colors cursor-pointer"
                       >
-                        {WHATSAPP_DISPLAY}
+                        <MessageCircle className="w-3.5 h-3.5" />
+                        Chamar Agora
+                      </button>
+
+                      <button
+                        type="button"
+                        onClick={handleCopyPhoneInline}
+                        className="px-3.5 py-2 rounded-xl bg-agro-surface hover:bg-agro-elevated border border-agro-border text-agro-cream text-xs font-semibold inline-flex items-center gap-1.5 transition-colors cursor-pointer"
+                      >
+                        {copiedInlinePhone ? (
+                          <>
+                            <Check className="w-3.5 h-3.5 text-agro-emerald" />
+                            Copiado!
+                          </>
+                        ) : (
+                          <>
+                            <Copy className="w-3.5 h-3.5 text-agro-emerald" />
+                            Copiar Número
+                          </>
+                        )}
+                      </button>
+
+                      <a
+                        href={VCARD_DATA_URI}
+                        download="engenheiro-agronomo.vcf"
+                        className="px-3.5 py-2 rounded-xl bg-agro-surface hover:bg-agro-elevated border border-agro-border text-agro-cream text-xs font-semibold inline-flex items-center gap-1.5 transition-colors"
+                      >
+                        <UserPlus className="w-3.5 h-3.5 text-agro-gold" />
+                        Salvar na Agenda
                       </a>
-                      <span className="text-xs text-agro-muted block mt-0.5">
-                        Canal único e direto com o Engenheiro Agrônomo
-                      </span>
                     </div>
                   </div>
 
@@ -731,19 +788,41 @@ const App: React.FC = () => {
                 )}
 
                 {readyForWhatsapp && (
-                  <div className="mb-6 p-4 rounded-xl bg-agro-emerald/15 border border-agro-emerald/40 text-agro-cream text-xs sm:text-sm flex flex-col sm:flex-row sm:items-center justify-between gap-3">
-                    <div className="flex items-center gap-2.5">
-                      <CheckCircle2 className="w-5 h-5 text-agro-emerald shrink-0" />
-                      <span>Diagnóstico preparado! Caso o WhatsApp não tenha aberto, clique ao lado:</span>
+                  <div className="mb-6 p-4 rounded-xl bg-agro-emerald/15 border border-agro-emerald/40 text-agro-cream text-xs sm:text-sm space-y-3">
+                    <div className="flex items-start gap-2.5">
+                      <CheckCircle2 className="w-5 h-5 text-agro-emerald shrink-0 mt-0.5" />
+                      <div>
+                        <span className="font-semibold block">
+                          Resumo copiado automaticamente! Basta colar na conversa do WhatsApp.
+                        </span>
+                        <span className="text-xs text-agro-muted block mt-0.5">
+                          Se o seu celular não abriu direto por ser WhatsApp Pessoal, use uma das alternativas rápidas:
+                        </span>
+                      </div>
                     </div>
-                    <a
-                      href={buildWhatsappUrl()}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="px-4 py-2 bg-agro-emerald text-agro-bg font-bold rounded-lg text-xs whitespace-nowrap text-center"
-                    >
-                      Abrir Conversa
-                    </a>
+                    <div className="flex flex-wrap gap-2 pt-1">
+                      <a
+                        href={WHATSAPP_APP_URI}
+                        className="px-3.5 py-2 bg-agro-emerald text-agro-bg font-bold rounded-lg text-xs"
+                      >
+                        Abrir Direto no App
+                      </a>
+                      <a
+                        href={VCARD_DATA_URI}
+                        download="engenheiro-agronomo.vcf"
+                        className="px-3.5 py-2 bg-agro-surface border border-agro-border text-agro-cream font-semibold rounded-lg text-xs"
+                      >
+                        Salvar na Agenda
+                      </a>
+                      <a
+                        href={WHATSAPP_ALT_NO9_URL}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="px-3.5 py-2 bg-agro-surface border border-agro-border text-agro-gold font-semibold rounded-lg text-xs"
+                      >
+                        Link sem 9º dígito (DDD 97)
+                      </a>
+                    </div>
                   </div>
                 )}
 
@@ -809,13 +888,26 @@ const App: React.FC = () => {
                     />
                   </div>
 
-                  <button
-                    type="submit"
-                    className="w-full py-4 px-6 bg-agro-emerald hover:bg-agro-leaf text-agro-bg rounded-xl font-display font-bold text-sm transition-all flex items-center justify-center gap-2.5 cursor-pointer shadow-lg shadow-agro-emerald/15 active:scale-[0.99]"
-                  >
-                    <MessageCircle className="w-5 h-5" />
-                    Iniciar Atendimento no WhatsApp
-                  </button>
+                  {isFormValid ? (
+                    <a
+                      href={WHATSAPP_CLEAN_URL}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      onClick={handleValidAnchorClick}
+                      className="w-full py-4 px-6 bg-agro-emerald hover:bg-agro-leaf text-agro-bg rounded-xl font-display font-bold text-sm transition-all flex items-center justify-center gap-2.5 cursor-pointer shadow-lg shadow-agro-emerald/15 active:scale-[0.99]"
+                    >
+                      <MessageCircle className="w-5 h-5" />
+                      Abrir WhatsApp & Copiar Dados
+                    </a>
+                  ) : (
+                    <button
+                      type="submit"
+                      className="w-full py-4 px-6 bg-agro-emerald hover:bg-agro-leaf text-agro-bg rounded-xl font-display font-bold text-sm transition-all flex items-center justify-center gap-2.5 cursor-pointer shadow-lg shadow-agro-emerald/15 active:scale-[0.99]"
+                    >
+                      <MessageCircle className="w-5 h-5" />
+                      Iniciar Atendimento no WhatsApp
+                    </button>
+                  )}
                 </form>
               </StaggerItem>
             </StaggerContainer>
@@ -873,14 +965,13 @@ const App: React.FC = () => {
             >
               Calculadora
             </button>
-            <a
-              href={directWhatsappHref}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="text-agro-emerald font-mono font-semibold hover:underline"
+            <button
+              type="button"
+              onClick={() => openDirectWhatsappModal()}
+              className="text-agro-emerald font-mono font-semibold hover:underline cursor-pointer"
             >
               WhatsApp: {WHATSAPP_DISPLAY}
-            </a>
+            </button>
           </div>
 
           <p className="text-xs text-agro-muted text-center md:text-right">
@@ -890,22 +981,21 @@ const App: React.FC = () => {
       </footer>
 
       {/* FLOATING WHATSAPP CTA BUTTON */}
-      <motion.a
+      <motion.button
+        type="button"
+        onClick={() => openDirectWhatsappModal()}
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.6, delay: 0.55, ease: PREMIUM_EASE }}
-        href={directWhatsappHref}
-        target="_blank"
-        rel="noopener noreferrer"
         aria-label="Falar com Engenheiro Agrônomo no WhatsApp"
-        title="Atendimento Direto via WhatsApp"
-        className="fixed bottom-6 right-6 z-50 bg-agro-emerald hover:bg-agro-leaf text-agro-bg p-4 rounded-full shadow-xl shadow-black/40 hover:scale-105 active:scale-95 transition-transform flex items-center gap-2.5"
+        title="Atendimento Direto via WhatsApp Pessoal"
+        className="fixed bottom-6 right-6 z-40 bg-agro-emerald hover:bg-agro-leaf text-agro-bg p-4 rounded-full shadow-xl shadow-black/40 hover:scale-105 active:scale-95 transition-transform flex items-center gap-2.5 cursor-pointer"
       >
         <MessageCircle className="w-6 h-6" />
         <span className="hidden sm:inline font-display font-bold text-xs pr-1">
           Falar no WhatsApp
         </span>
-      </motion.a>
+      </motion.button>
     </div>
   );
 };
