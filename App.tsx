@@ -354,7 +354,7 @@ const App: React.FC = () => {
                   className="px-7 py-4 bg-agro-surface hover:bg-agro-elevated border border-agro-border text-agro-cream rounded-xl font-display font-semibold text-sm transition-all inline-flex items-center justify-center gap-2.5 cursor-pointer"
                 >
                   <MessageCircle className="w-4 h-4 text-agro-emerald" />
-                  Falar pelo WhatsApp
+                  WhatsApp (97) 93618-1045
                 </button>
               </StaggerItem>
 
@@ -677,14 +677,15 @@ const App: React.FC = () => {
                     </div>
 
                     <div className="flex flex-wrap gap-2 pt-1">
-                      <button
-                        type="button"
-                        onClick={() => openDirectWhatsappModal()}
+                      <a
+                        href={WHATSAPP_CLEAN_URL}
+                        target="_blank"
+                        rel="noopener noreferrer"
                         className="px-3.5 py-2 rounded-xl bg-agro-emerald hover:bg-agro-leaf text-agro-bg font-display font-bold text-xs inline-flex items-center gap-1.5 transition-colors cursor-pointer"
                       >
                         <MessageCircle className="w-3.5 h-3.5" />
                         Chamar Agora
-                      </button>
+                      </a>
 
                       <button
                         type="button"
@@ -712,6 +713,14 @@ const App: React.FC = () => {
                         <UserPlus className="w-3.5 h-3.5 text-agro-gold" />
                         Salvar na Agenda
                       </a>
+
+                      <button
+                        type="button"
+                        onClick={() => openDirectWhatsappModal()}
+                        className="px-3.5 py-2 rounded-xl bg-agro-surface hover:bg-agro-elevated border border-agro-border text-agro-muted hover:text-agro-cream text-xs font-semibold inline-flex items-center gap-1.5 transition-colors cursor-pointer"
+                      >
+                        Outras formas de abrir
+                      </button>
                     </div>
                   </div>
 
@@ -987,13 +996,13 @@ const App: React.FC = () => {
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.6, delay: 0.55, ease: PREMIUM_EASE }}
-        aria-label="Falar com Engenheiro Agrônomo no WhatsApp"
-        title="Atendimento Direto via WhatsApp Pessoal"
+        aria-label="Falar com Engenheiro Agrônomo no WhatsApp (97) 93618-1045"
+        title="WhatsApp Direto: +55 (97) 93618-1045"
         className="fixed bottom-6 right-6 z-40 bg-agro-emerald hover:bg-agro-leaf text-agro-bg p-4 rounded-full shadow-xl shadow-black/40 hover:scale-105 active:scale-95 transition-transform flex items-center gap-2.5 cursor-pointer"
       >
         <MessageCircle className="w-6 h-6" />
         <span className="hidden sm:inline font-display font-bold text-xs pr-1">
-          Falar no WhatsApp
+          WhatsApp (97) 93618-1045
         </span>
       </motion.button>
     </div>
